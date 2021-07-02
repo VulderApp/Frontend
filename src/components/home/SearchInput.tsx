@@ -9,10 +9,14 @@ const test = ["aaaaa", "ddddd", "dupa"];
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      marginTop: "60%",
       display: "block",
     },
-    autocomplete: {},
+    autocomplete: {
+      position: 'absolute',
+      width: '80%',
+      left: '10%',
+      top: '50%',
+    },
     floatingButton: {
       position: "absolute",
       bottom: 0,
@@ -28,7 +32,7 @@ export default function SearchInput(): ReactElement {
     <div className={classes.root}>
       <Autocomplete
         className={classes.autocomplete}
-        id="combo-box-demo"
+        id="search-box"
         options={test}
         getOptionLabel={(option) => option}
         renderInput={(params) => (
