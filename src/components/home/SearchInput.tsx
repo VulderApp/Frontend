@@ -1,7 +1,7 @@
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import React, { ReactElement } from "react";
-import { createStyles, Fab, makeStyles } from "@material-ui/core";
+import React, {ReactElement} from "react";
+import {createStyles, Fab, makeStyles} from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import School from "../../api/data/school";
@@ -27,36 +27,15 @@ const useStyles = makeStyles(() =>
   })
 );
 
+const getSearchedData = async (inputValue: string): Promise<Array<School>> => {
+  return await api.search(inputValue);
+};
+
 export default function SearchInput(): ReactElement {
-  const [open, setOpen] = React.useState(false);
+  const [inputValue, setInputValue] = React.useState<string>();
+  const [open, setOpen] = React.useState<boolean>()
   const [options, setOptions] = React.useState<School[]>([]);
-  const [input, setInput] = React.useState<string>();
   const loading = open && options.length === 0;
-
-  React.useEffect(() => {
-    let active  = true;
-
-    if (!loading) {
-      return undefined;
-    }
-
-    (async () => {
-      const response = (await api.search(input)).data.schools;
-
-      if (active) {
-        setOptions(response)
-      }
-    })();
-    return () => {
-      active = false
-    }
-  }, [loading]);
-
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
 
   const classes = useStyles();
   return (
@@ -64,19 +43,16 @@ export default function SearchInput(): ReactElement {
       <Autocomplete
         className={classes.autocomplete}
         id="search-box"
+        inputValue={inputValue}
         open={loading}
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false)
+        onInputChange={async (event, newInputValue) => {
+          setInputValue(newInputValue)
+          setOptions(await getSearchedData(newInputValue))
         }}
         options={options}
         loading={loading}
-        getOptionLabel={(option) => {
-          setInput(option.name)
-          return option.name
-        }}
+        getOptionLabel={(option) =>  option.name}
+        onClose={() => setOpen(false)}
         getOptionSelected={(option, value) => option.name == value.name}
         renderInput={(params) => (
           <TextField
