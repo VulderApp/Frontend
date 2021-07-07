@@ -9,8 +9,8 @@ const useStyles = makeStyles(() =>
     },
     header: {
       fontSize: 22,
-      textAlign: 'center'
-    }
+      textAlign: "center",
+    },
   })
 );
 

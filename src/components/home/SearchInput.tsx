@@ -1,11 +1,10 @@
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import React, {ReactElement} from "react";
-import {createStyles, Fab, makeStyles} from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import React, { ReactElement, useEffect } from "react";
+import { createStyles, makeStyles } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import School from "../../api/data/school";
-import api from '../../api/api';
+import api from "../../api/api";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -13,10 +12,10 @@ const useStyles = makeStyles(() =>
       display: "block",
     },
     autocomplete: {
-      position: 'absolute',
-      width: '80%',
-      left: '10%',
-      top: '50%',
+      position: "absolute",
+      width: "80%",
+      left: "10%",
+      top: "50%",
     },
     floatingButton: {
       position: "absolute",
@@ -32,10 +31,24 @@ const getSearchedData = async (inputValue: string): Promise<Array<School>> => {
 };
 
 export default function SearchInput(): ReactElement {
-  const [inputValue, setInputValue] = React.useState<string>();
-  const [open, setOpen] = React.useState<boolean>()
+  const [inputValue, setInputValue] = React.useState<string>("");
+  const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState<School[]>([]);
   const loading = open && options.length === 0;
+  let timeout: NodeJS.Timeout;
+
+  useEffect(() => {
+    clearTimeout(timeout);
+    timeout = setTimeout(async () => {
+      if (inputValue.length > 0) setOptions(await getSearchedData(inputValue));
+    }, 1000);
+  }, [inputValue]);
+
+  React.useEffect(() => {
+    if (!open) {
+      setOptions([]);
+    }
+  }, [open]);
 
   const classes = useStyles();
   return (
@@ -43,16 +56,19 @@ export default function SearchInput(): ReactElement {
       <Autocomplete
         className={classes.autocomplete}
         id="search-box"
+        open={open}
         inputValue={inputValue}
-        open={loading}
-        onInputChange={async (event, newInputValue) => {
-          setInputValue(newInputValue)
-          setOptions(await getSearchedData(newInputValue))
-        }}
         options={options}
         loading={loading}
-        getOptionLabel={(option) =>  option.name}
-        onClose={() => setOpen(false)}
+        getOptionLabel={(option) => option.name}
+        onInputChange={(event, value) => {
+          setInputValue(value);
+          setOpen(true);
+        }}
+        onClose={() => {
+          clearTimeout(timeout);
+          setOpen(false);
+        }}
         getOptionSelected={(option, value) => option.name == value.name}
         renderInput={(params) => (
           <TextField
@@ -63,17 +79,15 @@ export default function SearchInput(): ReactElement {
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                  {params.InputProps.endAdornment}
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                 </React.Fragment>
               ),
             }}
           />
         )}
       />
-      <Fab className={classes.floatingButton} color="primary" aria-label="add">
-        <CheckIcon />
-      </Fab>
     </div>
   );
 }
