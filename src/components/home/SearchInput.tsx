@@ -1,10 +1,11 @@
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import React, { ReactElement, useEffect } from "react";
-import { createStyles, makeStyles } from "@material-ui/core";
+import { createStyles, IconButton, makeStyles } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import School from "../../api/data/school";
 import api from "../../api/api";
+import SearchIcon from "@material-ui/icons/Search";
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -22,6 +23,10 @@ const useStyles = makeStyles(() =>
       bottom: 0,
       right: 0,
       margin: 15,
+    },
+    searchIcon: {
+      position: "absolute",
+      right: 0,
     },
   })
 );
@@ -82,6 +87,9 @@ export default function SearchInput(): ReactElement {
                   {loading ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : null}
+                  <IconButton className={classes.searchIcon}>
+                    <SearchIcon />
+                  </IconButton>
                 </React.Fragment>
               ),
             }}
