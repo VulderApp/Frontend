@@ -1,34 +1,29 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true
+  env: {
+    browser: true,
+    es2021: true,
+    jest: true,
+  },
+  extends: ["plugin:react/recommended", "standard", "prettier"],
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
     },
-    "settings": {
-        "react": {
-            "createClass": "createReactClass",
-            "pragma": "React",
-            "fragment": "Fragment",
-            "version": "detect",
-            "flowVersion": "0.53"
-        },
+    ecmaVersion: 13,
+    sourceType: "module",
+  },
+  settings: {
+    react: {
+      version: "detect",
     },
-    "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
-    "rules": {
-    }
+  },
+  plugins: ["react", "@typescript-eslint", "prettier"],
+  rules: {
+    "prettier/prettier": "error",
+    "arrow-body-style": "off",
+    "prefer-arrow-callback": "off",
+    "no-use-before-define": "off",
+    "import/no-duplicates": "off",
+  },
 };
