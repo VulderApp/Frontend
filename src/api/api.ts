@@ -15,4 +15,4 @@ export const getSearchedSchools = async (
         input: input,
       },
     })
-    .catch((err) => console.log(err));
+    .catch((err) => err);
