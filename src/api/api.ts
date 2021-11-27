@@ -5,12 +5,14 @@ const BASE_URL = "http://localhost:5211";
 
 export const getSearchedSchools = async (
   input: string
-): Promise<AxiosResponse<Array<FindItem>>> =>
-  await axios.request<Array<FindItem>>({
-    baseURL: BASE_URL,
-    url: "/school/FindSchools",
-    method: "GET",
-    params: {
-      input: input,
-    },
-  });
+): Promise<AxiosResponse<Array<FindItem>> | void> =>
+  await axios
+    .request<Array<FindItem>>({
+      baseURL: BASE_URL,
+      url: "/school/FindSchools",
+      method: "GET",
+      params: {
+        input: input,
+      },
+    })
+    .catch((err) => console.log(err));

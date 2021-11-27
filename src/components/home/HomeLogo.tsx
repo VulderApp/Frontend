@@ -4,7 +4,9 @@ import { Container, Typography } from "@mui/material";
 const HomeLogo = (): ReactElement => {
   return (
     <Container>
-      <Typography>Vulder</Typography>
+      <Typography sx={{ textAlign: "center", fontWeight: "400" }} variant="h1">
+        Vulder
+      </Typography>
     </Container>
   );
 };
