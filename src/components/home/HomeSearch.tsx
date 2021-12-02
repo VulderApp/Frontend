@@ -10,6 +10,11 @@ import { FindItem } from "../../api/models/find/FindItem";
 import { getSearchedSchools } from "../../api/api";
 import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";
+import { saveItem } from "../../utils/localStorageUtil";
+import { LAST_SCHOOL_ID } from "../../constants";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { isTimetableView } from "../../states";
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -17,12 +22,20 @@ const HomeSearch = (): ReactElement => {
   const [value, setValue] = React.useState<FindItem | null>(null);
   const [options, setOptions] = React.useState<readonly FindItem[]>([]);
   const loading = open && options.length === 0;
+  const [, setTimetableView] = useRecoilState(isTimetableView);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     const response = await getSearchedSchools(userInput);
     if (response?.status !== 200) return;
 
     setOptions(response.data);
+  };
+
+  const handleSchoolConfirm = () => {
+    saveItem(LAST_SCHOOL_ID, value?.id!);
+    setTimetableView(true);
+    navigate("/timetable");
   };
 
   const debounceOnInputChange = useCallback(debounce(handleSearch, 1500), [
@@ -64,7 +77,7 @@ const HomeSearch = (): ReactElement => {
                     <CircularProgress color="inherit" size={20} />
                   ) : null}
                   <IconButton>
-                    <SearchIcon />
+                    <SearchIcon onClick={handleSchoolConfirm} />
                   </IconButton>
                   {params.InputProps.endAdornment}
                 </React.Fragment>
