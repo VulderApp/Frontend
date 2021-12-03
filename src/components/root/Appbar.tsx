@@ -2,10 +2,11 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import React, { ReactElement } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import BranchDrawer from "./BranchDrawer";
-import { isTimetableView, menuOpen } from "../../states";
+import { appbarTitle, isTimetableView, menuOpen } from "../../states";
 import { useRecoilState } from "recoil";
 
 const Appbar = (): ReactElement => {
+  const [title] = useRecoilState(appbarTitle);
   const [timetableView] = useRecoilState(isTimetableView);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
 
@@ -25,11 +26,11 @@ const Appbar = (): ReactElement => {
             </IconButton>
           )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Vulder
+            {title}
           </Typography>
         </Toolbar>
       </AppBar>
-      <BranchDrawer />
+      {timetableView ? <BranchDrawer /> : null}
     </Box>
   );
 };

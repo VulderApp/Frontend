@@ -1,15 +1,16 @@
 import React, { ReactElement } from "react";
 import {
-  Divider,
   Drawer,
   IconButton,
+  List,
   ListItem,
   ListItemText,
+  ListSubheader,
   styled,
   useTheme,
 } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { menuOpen } from "../../states";
+import { isTimetableView, menuOpen } from "../../states";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Branch } from "../../api/models/branch/branch";
@@ -32,6 +33,7 @@ const BranchDrawer = (): ReactElement => {
   const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
+  const [isTimetable] = useRecoilState(isTimetableView);
 
   const onMount = async () => {
     const response = await getBranches(getItem(LAST_SCHOOL_ID)!);
@@ -41,9 +43,36 @@ const BranchDrawer = (): ReactElement => {
     }
   };
 
+  const renderBranchCategory = (category: BranchType) =>
+    branchItem?.map((item) => {
+      if (item.type === category) {
+        return (
+          <ListItem button key={item.name}>
+            <ListItemText primary={item.name} />
+          </ListItem>
+        );
+      }
+
+      return null;
+    });
+
+  const renderBranchItems = (): ReactElement => (
+    <>
+      <List subheader={<ListSubheader>Classes</ListSubheader>}>
+        {renderBranchCategory(BranchType.Class)}
+      </List>
+      <List subheader={<ListSubheader>Teachers</ListSubheader>}>
+        {renderBranchCategory(BranchType.Teacher)}
+      </List>
+      <List subheader={<ListSubheader>Classrooms</ListSubheader>}>
+        {renderBranchCategory(BranchType.ClassRoom)}
+      </List>
+    </>
+  );
+
   React.useEffect(() => {
     (async () => await onMount())();
-  }, []);
+  }, [isTimetableView]);
 
   return (
     <Drawer
@@ -68,41 +97,7 @@ const BranchDrawer = (): ReactElement => {
           )}
         </IconButton>
       </DrawerHeader>
-      {branchItem?.map((item) => {
-        if (item.type === BranchType.Class) {
-          return (
-            <ListItem button key={item.name}>
-              <ListItemText primary={item.name} />
-            </ListItem>
-          );
-        }
-
-        return null;
-      })}
-      <Divider />
-      {branchItem?.map((item) => {
-        if (item.type === BranchType.Teacher) {
-          return (
-            <ListItem button key={item.name}>
-              <ListItemText primary={item.name} />
-            </ListItem>
-          );
-        }
-
-        return null;
-      })}
-      <Divider />
-      {branchItem?.map((item) => {
-        if (item.type === BranchType.ClassRoom) {
-          return (
-            <ListItem button key={item.name}>
-              <ListItemText primary={item.name} />
-            </ListItem>
-          );
-        }
-
-        return null;
-      })}
+      {isTimetable ? renderBranchItems() : null}
     </Drawer>
   );
 };
