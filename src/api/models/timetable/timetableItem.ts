@@ -8,6 +8,6 @@ export interface TimetableItem {
   lessonNumber: number | null;
   startAt: Date;
   endAt: Date;
-  teacher: Teacher | null;
-  classroom: Classroom | null;
+  teacher: Teacher[] | null;
+  classroom: Classroom[] | null;
 }

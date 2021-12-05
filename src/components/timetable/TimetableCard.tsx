@@ -1,5 +1,5 @@
-import React from "react";
-import { Card, Container, Divider, Grid, Typography } from "@mui/material";
+import React, { ReactElement } from "react";
+import { Card, Container, Grid, Typography } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
 
@@ -15,13 +15,45 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
       minute: "2-digit",
     });
 
+  const RenderCardWithDay = (): ReactElement => {
+    let day;
+
+    switch (week) {
+      case Week.Monday:
+        day = "Monday";
+        break;
+      case Week.Tuesday:
+        day = "Tuesday";
+        break;
+      case Week.Wednesday:
+        day = "Wednesday";
+        break;
+      case Week.Thursday:
+        day = "Thursday";
+        break;
+      case Week.Friday:
+        day = "Friday";
+        break;
+    }
+
+    return (
+      <>
+        <Card sx={{ textAlign: "center", padding: 2 }}>
+          <Typography variant="h6" component="div">
+            {day}
+          </Typography>
+        </Card>
+      </>
+    );
+  };
+
   return (
     <Grid item xs={4}>
-      <Card>
-        <Typography>{week?.toString()}</Typography>
-      </Card>
+      {RenderCardWithDay()}
       <Card
         sx={{
+          display: "flex",
+          flexDirection: "column",
           marginTop: 2,
         }}
       >
@@ -29,17 +61,20 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
           if (item.dayOfWeek !== week) return null;
 
           return (
-            <Container key={index}>
+            <Container key={index} sx={{ display: "flex" }}>
               <Typography sx={{ float: "left" }}>
                 {item.lessonNumber}
               </Typography>
               <Typography sx={{ float: "left", marginLeft: 2 }}>
                 {getTimeToString(item.startAt)}-{getTimeToString(item.endAt)}
               </Typography>
-              <Typography sx={{ float: "right" }}>
+              <Typography>{item.subject?.join("/")}</Typography>
+              <Typography>
                 {item.subject?.join("/")}
+                {item.teacher?.map((item, index) => (
+                  <Typography key={index}>{item.initials}</Typography>
+                ))}
               </Typography>
-              <Divider />
             </Container>
           );
         })}
