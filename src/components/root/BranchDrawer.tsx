@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { isTimetableView, menuOpen } from "../../states";
+import { actualTimetable, isTimetableView, menuOpen } from "../../states";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Branch } from "../../api/models/branch/branch";
@@ -32,6 +32,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const BranchDrawer = (): ReactElement => {
   const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
+  const [, setSelectedBranch] = useRecoilState(actualTimetable);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
   const [isTimetable] = useRecoilState(isTimetableView);
 
@@ -40,6 +41,7 @@ const BranchDrawer = (): ReactElement => {
 
     if (response?.status === 200) {
       setBranchItems(response?.data);
+      setSelectedBranch(response?.data[0]);
     }
   };
 

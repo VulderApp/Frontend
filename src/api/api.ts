@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { FindItem } from "./models/find/FindItem";
 import { Branch } from "./models/branch/branch";
+import { Timetable } from "./models/timetable/timetable";
 
 const BASE_URL = "http://localhost:5133";
 
@@ -30,6 +31,25 @@ export const getBranches = async (
       method: "GET",
       params: {
         schoolId,
+      },
+    })
+    .catch((err) => err);
+
+export const getTimetable = async (
+  schoolId: string,
+  classname: string,
+  shortPath: string
+): Promise<AxiosResponse<Timetable>> =>
+  await axios
+    .request<Timetable>({
+      baseURL: BASE_URL,
+      url: "/timetable/GetTimetable",
+      maxRedirects: 1,
+      method: "GET",
+      params: {
+        schoolId,
+        classname,
+        shortPath,
       },
     })
     .catch((err) => err);
