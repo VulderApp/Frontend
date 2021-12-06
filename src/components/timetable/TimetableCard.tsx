@@ -78,11 +78,18 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
                 {getTimeToString(item.startAt)} - {getTimeToString(item.endAt)}
               </Typography>
               <Typography sx={{ display: "flex" }}>
-                {item.subject?.join("/")}
+                {item.subject?.join("/") + "\n"}
                 {item.teacher?.flatMap((value, index) =>
                   item.teacher?.length === index + 1
                     ? value.initials
                     : `${value.initials}/`
+                )}
+              </Typography>
+              <Typography>
+                {item.classroom?.flatMap((classroom, index) =>
+                  item.classroom?.length === index + 1
+                    ? classroom.classroomNumber
+                    : `${classroom.classroomNumber}/`
                 )}
               </Typography>
             </Container>
