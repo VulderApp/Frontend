@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { isTimetableView, menuOpen } from "../../states";
+import { actualTimetable, isTimetableView, menuOpen } from "../../states";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Branch } from "../../api/models/branch/branch";
@@ -32,7 +32,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const BranchDrawer = (): ReactElement => {
   const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
+  const [, setSelectedBranch] = useRecoilState(actualTimetable);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
+  const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
   const [isTimetable] = useRecoilState(isTimetableView);
 
   const onMount = async () => {
@@ -40,14 +42,21 @@ const BranchDrawer = (): ReactElement => {
 
     if (response?.status === 200) {
       setBranchItems(response?.data);
+      setSelectedBranch(response?.data[0]);
+    }
+  };
+
+  const handleListClick = (index: number) => {
+    if (branchItem) {
+      setActualBranch(branchItem[index]);
     }
   };
 
   const renderBranchCategory = (category: BranchType) =>
-    branchItem?.map((item) => {
+    branchItem?.map((item, index) => {
       if (item.type === category) {
         return (
-          <ListItem button key={item.name}>
+          <ListItem key={index} button onClick={() => handleListClick(index)}>
             <ListItemText primary={item.name} />
           </ListItem>
         );
@@ -73,6 +82,8 @@ const BranchDrawer = (): ReactElement => {
   React.useEffect(() => {
     (async () => await onMount())();
   }, [isTimetableView]);
+
+  React.useEffect(() => {}, [actualBranch]);
 
   return (
     <Drawer
