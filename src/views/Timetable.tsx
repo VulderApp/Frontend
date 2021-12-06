@@ -10,15 +10,7 @@ const Timetable = (): ReactElement => {
   const [selectedBranch] = useRecoilState(actualTimetable);
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        minHeight: "70vh",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <Container>
       {selectedBranch ? (
         <TimetableGrid
           schoolId={getItem(LAST_SCHOOL_ID)!}

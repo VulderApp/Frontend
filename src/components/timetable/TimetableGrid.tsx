@@ -33,7 +33,19 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   }, []);
 
   return (
-    <Grid container spacing={2}>
+    <Grid
+      sx={{
+        display: "flex",
+        minHeight: "80vh",
+        minWidth: "auto",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      container
+      spacing={2}
+    >
       {timetableItems ? (
         <>
           <TimetableCard timetable={timetableItems} week={Week.Monday} />

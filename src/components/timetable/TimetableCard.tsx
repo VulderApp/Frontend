@@ -9,6 +9,9 @@ interface TimetableCardProps {
 }
 
 const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
+  // eslint-disable-next-line no-console
+  console.log(timetable);
+
   const getTimeToString = (date: Date): string =>
     new Date(date).toLocaleTimeString([], {
       hour: "2-digit",
@@ -48,32 +51,39 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
   };
 
   return (
-    <Grid item xs={4}>
+    <Grid item xs={10}>
       {RenderCardWithDay()}
       <Card
         sx={{
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
+          flexWrap: "wrap",
           marginTop: 2,
+          padding: 1,
+          gap: 1,
         }}
       >
         {timetable.map((item, index) => {
           if (item.dayOfWeek !== week) return null;
 
           return (
-            <Container key={index} sx={{ display: "flex" }}>
+            <Container
+              key={index}
+              sx={{ display: "flex", flexDirection: "row", gap: 2 }}
+            >
               <Typography sx={{ float: "left" }}>
                 {item.lessonNumber}
               </Typography>
               <Typography sx={{ float: "left", marginLeft: 2 }}>
-                {getTimeToString(item.startAt)}-{getTimeToString(item.endAt)}
+                {getTimeToString(item.startAt)} - {getTimeToString(item.endAt)}
               </Typography>
-              <Typography>{item.subject?.join("/")}</Typography>
-              <Typography>
+              <Typography sx={{ display: "flex" }}>
                 {item.subject?.join("/")}
-                {item.teacher?.map((item, index) => (
-                  <Typography key={index}>{item.initials}</Typography>
-                ))}
+                {item.teacher?.flatMap((value, index) =>
+                  item.teacher?.length === index + 1
+                    ? value.initials
+                    : `${value.initials}/`
+                )}
               </Typography>
             </Container>
           );
