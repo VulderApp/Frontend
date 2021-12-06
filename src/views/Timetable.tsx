@@ -8,11 +8,21 @@ import { Container } from "@mui/material";
 
 const Timetable = (): ReactElement => {
   const [selectedBranch] = useRecoilState(actualTimetable);
+  const [resetTimetable, setResetTimetable] = React.useState<number | null>(
+    null
+  );
+
+  React.useEffect(() => {
+    if (selectedBranch === null) return;
+
+    setResetTimetable(new Date().getTime());
+  }, [selectedBranch]);
 
   return (
     <Container>
-      {selectedBranch ? (
+      {resetTimetable ? (
         <TimetableGrid
+          key={resetTimetable}
           schoolId={getItem(LAST_SCHOOL_ID)!}
           className={selectedBranch!.name!}
           shortPath={selectedBranch!.url!}

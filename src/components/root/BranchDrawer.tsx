@@ -34,6 +34,7 @@ const BranchDrawer = (): ReactElement => {
   const [open, setOpen] = useRecoilState(menuOpen);
   const [, setSelectedBranch] = useRecoilState(actualTimetable);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
+  const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
   const [isTimetable] = useRecoilState(isTimetableView);
 
   const onMount = async () => {
@@ -45,11 +46,17 @@ const BranchDrawer = (): ReactElement => {
     }
   };
 
+  const handleListClick = (index: number) => {
+    if (branchItem) {
+      setActualBranch(branchItem[index]);
+    }
+  };
+
   const renderBranchCategory = (category: BranchType) =>
-    branchItem?.map((item) => {
+    branchItem?.map((item, index) => {
       if (item.type === category) {
         return (
-          <ListItem button key={item.name}>
+          <ListItem key={index} button onClick={() => handleListClick(index)}>
             <ListItemText primary={item.name} />
           </ListItem>
         );
@@ -75,6 +82,8 @@ const BranchDrawer = (): ReactElement => {
   React.useEffect(() => {
     (async () => await onMount())();
   }, [isTimetableView]);
+
+  React.useEffect(() => {}, [actualBranch]);
 
   return (
     <Drawer

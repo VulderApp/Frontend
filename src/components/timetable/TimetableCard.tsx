@@ -9,9 +9,6 @@ interface TimetableCardProps {
 }
 
 const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
-  // eslint-disable-next-line no-console
-  console.log(timetable);
-
   const getTimeToString = (date: Date): string =>
     new Date(date).toLocaleTimeString([], {
       hour: "2-digit",
