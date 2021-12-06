@@ -6,6 +6,11 @@ export const appbarTitle = atom({
   default: "Vulder",
 });
 
+export const timetableTitle = atom<string | null>({
+  key: "timetableTitle",
+  default: null,
+});
+
 export const actualTimetable = atom<null | Branch>({
   key: "actualTimetable",
   default: null,
