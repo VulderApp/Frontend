@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 const Appbar = (): ReactElement => {
   const [title, setTitle] = useRecoilState(appbarTitle);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
-  const [key, setKey] = React.useState<number | null>(new Date().getTime());
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
   const navigate = useNavigate();
 
@@ -20,7 +19,6 @@ const Appbar = (): ReactElement => {
     deleteItem(LAST_SCHOOL_ID);
     setTitle(HOME_APPBAR_TITLE);
     setTimetableView(false);
-    setKey(new Date().getTime());
     navigate("/");
   };
 
@@ -30,7 +28,6 @@ const Appbar = (): ReactElement => {
         <Toolbar>
           {timetableView ? (
             <IconButton
-              key={key}
               size="large"
               edge="start"
               color="inherit"
@@ -45,7 +42,6 @@ const Appbar = (): ReactElement => {
           </Typography>
           {timetableView ? (
             <IconButton
-              key={key}
               size="large"
               edge="end"
               color="inherit"
