@@ -4,18 +4,33 @@ import MenuIcon from "@mui/icons-material/Menu";
 import BranchDrawer from "./BranchDrawer";
 import { appbarTitle, isTimetableView, menuOpen } from "../../states";
 import { useRecoilState } from "recoil";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { deleteItem } from "../../utils/localStorageUtil";
+import { HOME_APPBAR_TITLE, LAST_SCHOOL_ID } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 const Appbar = (): ReactElement => {
-  const [title] = useRecoilState(appbarTitle);
-  const [timetableView] = useRecoilState(isTimetableView);
+  const [title, setTitle] = useRecoilState(appbarTitle);
+  const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
+  const [key, setKey] = React.useState<number | null>(new Date().getTime());
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
+  const navigate = useNavigate();
+
+  const handleBackButton = () => {
+    deleteItem(LAST_SCHOOL_ID);
+    setTitle(HOME_APPBAR_TITLE);
+    setTimetableView(false);
+    setKey(new Date().getTime());
+    navigate("/");
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
-          {timetableView && (
+          {timetableView ? (
             <IconButton
+              key={key}
               size="large"
               edge="start"
               color="inherit"
@@ -24,10 +39,22 @@ const Appbar = (): ReactElement => {
             >
               <MenuIcon onClick={() => setDrawerOpen(!drawerOpen)} />
             </IconButton>
-          )}
+          ) : null}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
+          {timetableView ? (
+            <IconButton
+              key={key}
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleBackButton}
+            >
+              <ExitToAppIcon />
+            </IconButton>
+          ) : null}
         </Toolbar>
       </AppBar>
       {timetableView ? <BranchDrawer /> : null}
