@@ -14,7 +14,7 @@ import { saveItem } from "../../utils/localStorageUtil";
 import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { appbarTitle, isTimetableView } from "../../states";
+import { appbarTitle } from "../../states";
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -22,7 +22,6 @@ const HomeSearch = (): ReactElement => {
   const [value, setValue] = React.useState<FindItem | null>(null);
   const [options, setOptions] = React.useState<readonly FindItem[]>([]);
   const loading = open && options.length === 0;
-  const [, setTimetableView] = useRecoilState(isTimetableView);
   const [, setAppbarTitle] = useRecoilState(appbarTitle);
   const navigate = useNavigate();
 
@@ -35,7 +34,6 @@ const HomeSearch = (): ReactElement => {
 
   const handleSchoolConfirm = () => {
     saveItem(LAST_SCHOOL_ID, value?.id!);
-    setTimetableView(true);
     setAppbarTitle(value?.name!);
     navigate("/timetable");
   };
