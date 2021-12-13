@@ -4,6 +4,7 @@ import {
   IconButton,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
   ListSubheader,
   styled,
@@ -32,6 +33,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const BranchDrawer = (): ReactElement => {
   const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
+  const [branchIndex, setBranchIndex] = React.useState(0);
   const [, setSelectedBranch] = useRecoilState(actualTimetable);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
   const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
@@ -47,6 +49,7 @@ const BranchDrawer = (): ReactElement => {
   };
 
   const handleListClick = (index: number) => {
+    setBranchIndex(index);
     if (branchItem) {
       setActualBranch(branchItem[index]);
     }
@@ -56,8 +59,13 @@ const BranchDrawer = (): ReactElement => {
     branchItem?.map((item, index) => {
       if (item.type === category) {
         return (
-          <ListItem key={index} button onClick={() => handleListClick(index)}>
-            <ListItemText primary={item.name} />
+          <ListItem key={index}>
+            <ListItemButton
+              selected={branchIndex === index}
+              onClick={() => handleListClick(index)}
+            >
+              <ListItemText primary={item.name} />
+            </ListItemButton>
           </ListItem>
         );
       }
