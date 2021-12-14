@@ -17,8 +17,9 @@ import { getSchoolDetails } from "../api/api";
 const Timetable = (): ReactElement => {
   const [selectedBranch] = useRecoilState(actualTimetable);
   const [, setTitle] = useRecoilState(timetableTitle);
-  const [, setTimetableView] = useRecoilState(isTimetableView);
+  const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
   const [, setAppbarTitle] = useRecoilState(appbarTitle);
+  const [schoolName, setSchoolName] = React.useState<string | null>(null);
   const [resetTimetable, setResetTimetable] = React.useState<number | null>(
     null
   );
@@ -26,18 +27,26 @@ const Timetable = (): ReactElement => {
 
   const onMount = () => {
     const navigate = useNavigate();
-    setTimetableView(true);
     if (schoolId === null) {
       navigate("/");
     }
   };
 
-  const setSchoolName = async () => {
+  const setSchoolNameToAppbar = async () => {
     const school = await getSchoolDetails(schoolId!);
     if (school.status === 204) return;
 
+    setSchoolName(school.data.name);
     setAppbarTitle(school.data.name);
+    setTimetableView(true);
   };
+
+  React.useEffect(() => {
+    (async () => {
+      if (schoolName !== null) return;
+      await setSchoolNameToAppbar();
+    })();
+  }, [timetableView]);
 
   React.useEffect(() => {
     if (selectedBranch === null) return;
@@ -47,7 +56,6 @@ const Timetable = (): ReactElement => {
   }, [selectedBranch]);
 
   onMount();
-  setSchoolName().then();
 
   return (
     <Container>
