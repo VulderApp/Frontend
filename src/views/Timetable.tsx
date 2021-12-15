@@ -9,7 +9,7 @@ import {
 } from "../states";
 import { LAST_SCHOOL_ID } from "../constants";
 import { getItem } from "../utils/localStorageUtil";
-import { Container } from "@mui/material";
+import { CircularProgress, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import TimetableTitle from "../components/timetable/TimetableTitle";
 import { getSchoolDetails } from "../api/api";
@@ -69,7 +69,23 @@ const Timetable = (): ReactElement => {
             shortPath={selectedBranch!.url!}
           />
         </>
-      ) : null}
+      ) : (
+        <>
+          <Container
+            sx={{
+              display: "flex",
+              minHeight: "80vh",
+              minWidth: "auto",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress />
+          </Container>
+        </>
+      )}
     </Container>
   );
 };
