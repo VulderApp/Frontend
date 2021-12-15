@@ -4,7 +4,10 @@ import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
 import { School } from "./models/school/School";
 
-const BASE_URL = "http://localhost:5133";
+const BASE_URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:5133"
+    : process.env.API_URL;
 
 export const getSearchedSchools = async (
   input: string
