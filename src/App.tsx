@@ -26,7 +26,10 @@ const App = (): ReactElement => {
           <Toolbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/timetable" element={<Timetable />} />
+            <Route path="/timetable">
+              <Route index element={<Home />} />
+              <Route path=":id" element={<Timetable />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

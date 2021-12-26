@@ -35,7 +35,7 @@ const HomeSearch = (): ReactElement => {
   const handleSchoolConfirm = () => {
     saveItem(LAST_SCHOOL_ID, value?.id!);
     setAppbarTitle(value?.name!);
-    navigate("/timetable");
+    navigate(`/timetable/${value?.id!}`);
   };
 
   const debounceOnInputChange = useCallback(debounce(handleSearch, 1500), [

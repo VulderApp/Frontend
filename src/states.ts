@@ -21,6 +21,11 @@ export const isTimetableView = atom({
   default: false,
 });
 
+export const actualSchoolId = atom<string | undefined>({
+  key: "actualSchoolId",
+  default: undefined,
+});
+
 export const menuOpen = atom({
   key: "menuOpen",
   default: false,
