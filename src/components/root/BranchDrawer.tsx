@@ -11,13 +11,16 @@ import {
   useTheme,
 } from "@mui/material";
 import { useRecoilState } from "recoil";
-import { actualTimetable, isTimetableView, menuOpen } from "../../states";
+import {
+  actualSchoolId,
+  actualTimetable,
+  isTimetableView,
+  menuOpen,
+} from "../../states";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Branch } from "../../api/models/branch/branch";
 import { getBranches } from "../../api/api";
-import { getItem } from "../../utils/localStorageUtil";
-import { LAST_SCHOOL_ID } from "../../constants";
 import { BranchType } from "../../api/models/branch/branchType";
 
 const drawerWidth = 250;
@@ -37,14 +40,16 @@ const BranchDrawer = (): ReactElement => {
   const [, setSelectedBranch] = useRecoilState(actualTimetable);
   const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
   const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
-  const [isTimetable] = useRecoilState(isTimetableView);
+  const [schoolId] = useRecoilState(actualSchoolId);
+  const [load, setLoad] = React.useState(true);
 
   const onMount = async () => {
-    const response = await getBranches(getItem(LAST_SCHOOL_ID)!);
+    const response = await getBranches(schoolId!);
 
     if (response?.status === 200) {
       setBranchItems(response?.data);
       setSelectedBranch(response?.data[0]);
+      setLoad(false);
     }
   };
 
@@ -57,6 +62,8 @@ const BranchDrawer = (): ReactElement => {
 
   const renderBranchCategory = (category: BranchType) =>
     branchItem?.map((item, index) => {
+      // eslint-disable-next-line no-console
+      console.log(item);
       if (item.type === category) {
         return (
           <ListItem key={index}>
@@ -116,7 +123,7 @@ const BranchDrawer = (): ReactElement => {
           )}
         </IconButton>
       </DrawerHeader>
-      {isTimetable ? renderBranchItems() : null}
+      {load ? null : renderBranchItems()}
     </Drawer>
   );
 };
