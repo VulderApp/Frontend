@@ -4,6 +4,8 @@ import { getTimetable } from "../../api/api";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import TimetableCard from "./TimetableCard";
 import { Week } from "../../api/models/timetable/week";
+import { useRecoilState } from "recoil";
+import { errorMessage } from "../../states";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -19,9 +21,15 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   const [timetableItems, setTimetableItems] = React.useState<
     TimetableItem[] | null
   >(null);
+  const [, setErrorMessage] = useRecoilState(errorMessage);
 
   const onRender = async () => {
     const response = await getTimetable(schoolId, className, shortPath);
+
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      return;
+    }
 
     if (response.status === 200) {
       setTimetableItems(response.data.timetableItems);

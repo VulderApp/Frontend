@@ -14,7 +14,7 @@ import { saveItem } from "../../utils/localStorageUtil";
 import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { appbarTitle } from "../../states";
+import { appbarTitle, errorMessage } from "../../states";
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -23,12 +23,17 @@ const HomeSearch = (): ReactElement => {
   const [options, setOptions] = React.useState<readonly FindItem[]>([]);
   const loading = open && options.length === 0;
   const [, setAppbarTitle] = useRecoilState(appbarTitle);
+  const [, setErrorMessage] = useRecoilState(errorMessage);
   const navigate = useNavigate();
 
   const handleSearch = async () => {
     const response = await getSearchedSchools(userInput);
-    if (response?.status !== 200) return;
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      return;
+    }
 
+    if (response?.status !== 200) return;
     setOptions(response.data);
   };
 

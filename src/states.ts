@@ -30,3 +30,8 @@ export const menuOpen = atom({
   key: "menuOpen",
   default: false,
 });
+
+export const errorMessage = atom<string | null>({
+  key: "errorMessage",
+  default: null,
+});

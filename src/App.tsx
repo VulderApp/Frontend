@@ -5,6 +5,7 @@ import Appbar from "./components/root/Appbar";
 import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
 import Timetable from "./views/Timetable";
 import { RecoilRoot } from "recoil";
+import SnackbarError from "./components/root/SnackbarError";
 
 const theme = createTheme({
   palette: {
@@ -24,6 +25,7 @@ const App = (): ReactElement => {
         <BrowserRouter>
           <Appbar />
           <Toolbar />
+          <SnackbarError />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/timetable">

@@ -5,6 +5,7 @@ import {
   actualSchoolId,
   actualTimetable,
   appbarTitle,
+  errorMessage,
   isTimetableView,
   timetableTitle,
 } from "../states";
@@ -25,6 +26,7 @@ const Timetable = (): ReactElement => {
   const [resetTimetable, setResetTimetable] = React.useState<number | null>(
     null
   );
+  const [, setErrorMessage] = useRecoilState(errorMessage);
   const { id } = useParams();
 
   const onMount = () => {
@@ -36,11 +38,17 @@ const Timetable = (): ReactElement => {
   };
 
   const setSchoolNameToAppbar = async () => {
-    const school = await getSchoolDetails(id!);
-    if (school.status === 204) return;
+    const response = await getSchoolDetails(id!);
 
-    setSchoolName(school.data.name);
-    setAppbarTitle(school.data.name);
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      return;
+    }
+
+    if (response.status === 204) return;
+
+    setSchoolName(response.data.name);
+    setAppbarTitle(response.data.name);
     setTimetableView(true);
   };
 
