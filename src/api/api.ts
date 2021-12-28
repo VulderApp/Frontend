@@ -3,11 +3,16 @@ import { FindItem } from "./models/find/FindItem";
 import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
 import { School } from "./models/school/School";
+import { setupCache } from "axios-cache-adapter";
 
 const BASE_URL =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:5133"
     : process.env.API_URL;
+
+const cache = setupCache({
+  maxAge: 15 * 60 * 1000,
+});
 
 export const getSearchedSchools = async (
   input: string
@@ -31,6 +36,7 @@ export const getBranches = async (
     .request<Array<Branch>>({
       baseURL: BASE_URL,
       url: "/branch/GetBranches",
+      adapter: cache.adapter,
       maxRedirects: 1,
       method: "GET",
       params: {
@@ -48,6 +54,7 @@ export const getTimetable = async (
     .request<Timetable>({
       baseURL: BASE_URL,
       url: "/timetable/GetTimetable",
+      adapter: cache.adapter,
       maxRedirects: 1,
       method: "GET",
       params: {
@@ -65,6 +72,7 @@ export const getSchoolDetails = async (
     .request<School>({
       baseURL: BASE_URL,
       url: "/school/GetSchool",
+      adapter: cache.adapter,
       maxRedirects: 1,
       method: "GET",
       params: {
