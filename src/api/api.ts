@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { FindItem } from "./models/find/FindItem";
 import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
@@ -11,7 +11,7 @@ const BASE_URL =
 
 export const getSearchedSchools = async (
   input: string
-): Promise<AxiosResponse<Array<FindItem>> | void> =>
+): Promise<AxiosResponse<Array<FindItem>> | string> =>
   await axios
     .request<Array<FindItem>>({
       baseURL: BASE_URL,
@@ -22,11 +22,11 @@ export const getSearchedSchools = async (
         input: input,
       },
     })
-    .catch((err) => err);
+    .catch<string>((err: AxiosError) => err.message);
 
 export const getBranches = async (
   schoolId: string
-): Promise<AxiosResponse<Array<Branch>> | void> =>
+): Promise<AxiosResponse<Array<Branch>> | string> =>
   await axios
     .request<Array<Branch>>({
       baseURL: BASE_URL,
@@ -37,13 +37,13 @@ export const getBranches = async (
         schoolId,
       },
     })
-    .catch((err) => err);
+    .catch<string>((err: AxiosError) => err.message);
 
 export const getTimetable = async (
   schoolId: string,
   classname: string,
   shortPath: string
-): Promise<AxiosResponse<Timetable>> =>
+): Promise<AxiosResponse<Timetable> | string> =>
   await axios
     .request<Timetable>({
       baseURL: BASE_URL,
@@ -56,17 +56,19 @@ export const getTimetable = async (
         shortPath,
       },
     })
-    .catch((err) => err);
+    .catch<string>((err: AxiosError) => err.message);
 
 export const getSchoolDetails = async (
   schoolId: string
-): Promise<AxiosResponse<School>> =>
-  await axios.request<School>({
-    baseURL: BASE_URL,
-    url: "/school/GetSchool",
-    maxRedirects: 1,
-    method: "GET",
-    params: {
-      schoolId,
-    },
-  });
+): Promise<AxiosResponse<School> | string> =>
+  await axios
+    .request<School>({
+      baseURL: BASE_URL,
+      url: "/school/GetSchool",
+      maxRedirects: 1,
+      method: "GET",
+      params: {
+        schoolId,
+      },
+    })
+    .catch<string>((err: AxiosError) => err.message);

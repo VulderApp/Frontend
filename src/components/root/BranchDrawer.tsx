@@ -14,6 +14,7 @@ import { useRecoilState } from "recoil";
 import {
   actualSchoolId,
   actualTimetable,
+  errorMessage,
   isTimetableView,
   menuOpen,
 } from "../../states";
@@ -42,9 +43,15 @@ const BranchDrawer = (): ReactElement => {
   const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
   const [schoolId] = useRecoilState(actualSchoolId);
   const [load, setLoad] = React.useState(true);
+  const [, setErrorMessage] = useRecoilState(errorMessage);
 
   const onMount = async () => {
     const response = await getBranches(schoolId!);
+
+    if (typeof response === "string") {
+      setErrorMessage(response);
+      return;
+    }
 
     if (response?.status === 200) {
       setBranchItems(response?.data);
