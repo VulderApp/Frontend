@@ -69,8 +69,6 @@ const BranchDrawer = (): ReactElement => {
 
   const renderBranchCategory = (category: BranchType) =>
     branchItem?.map((item, index) => {
-      // eslint-disable-next-line no-console
-      console.log(item);
       if (item.type === category) {
         return (
           <ListItem key={index}>

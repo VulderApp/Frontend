@@ -27,6 +27,8 @@ const HomeSearch = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleSearch = async () => {
+    if (userInput.trim().length === 0) return;
+
     const response = await getSearchedSchools(userInput);
     if (typeof response === "string") {
       setErrorMessage(response);
