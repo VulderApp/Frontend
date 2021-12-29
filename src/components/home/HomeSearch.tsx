@@ -83,8 +83,8 @@ const HomeSearch = (): ReactElement => {
                   {loading ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : null}
-                  <IconButton>
-                    <SearchIcon onClick={handleSchoolConfirm} />
+                  <IconButton onClick={handleSchoolConfirm}>
+                    <SearchIcon />
                   </IconButton>
                   {params.InputProps.endAdornment}
                 </React.Fragment>
