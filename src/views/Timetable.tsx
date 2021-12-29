@@ -15,6 +15,7 @@ import { CircularProgress, Container } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import TimetableTitle from "../components/timetable/TimetableTitle";
 import { getSchoolDetails } from "../api/api";
+import TimetableInfo from "../components/timetable/TimetableInfo";
 
 const Timetable = (): ReactElement => {
   const [selectedBranch] = useRecoilState(actualTimetable);
@@ -97,6 +98,7 @@ const Timetable = (): ReactElement => {
           </Container>
         </>
       )}
+      <TimetableInfo />
     </Container>
   );
 };
