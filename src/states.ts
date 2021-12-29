@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { Branch } from "./api/models/branch/branch";
+import { Timetable } from "./api/models/timetable/timetable";
 
 export const appbarTitle = atom({
   key: "appbarTitle",
@@ -29,6 +30,16 @@ export const actualSchoolId = atom<string | undefined>({
 export const menuOpen = atom({
   key: "menuOpen",
   default: false,
+});
+
+export const timetableInfoDialogOpen = atom({
+  key: "timetableInfoDialog",
+  default: false,
+});
+
+export const timetableData = atom<Timetable | null>({
+  key: "timetableData",
+  default: null,
 });
 
 export const errorMessage = atom<string | null>({
