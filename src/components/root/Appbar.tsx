@@ -40,13 +40,14 @@ const Appbar = (): ReactElement => {
         <Toolbar>
           {timetableView ? (
             <IconButton
+              sx={{ mr: 2 }}
               size="large"
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
+              onClick={() => setDrawerOpen(!drawerOpen)}
             >
-              <MenuIcon onClick={() => setDrawerOpen(!drawerOpen)} />
+              <MenuIcon />
             </IconButton>
           ) : null}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

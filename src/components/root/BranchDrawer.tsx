@@ -64,6 +64,7 @@ const BranchDrawer = (): ReactElement => {
     setBranchIndex(index);
     if (branchItem) {
       setActualBranch(branchItem[index]);
+      setOpen(false);
     }
   };
 
