@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import AboutLogo from "../components/about/AboutLogo";
-import AboutMenuCard from "../components/about/AboutMenuCard";
+import AboutLogo from "../../components/about/AboutLogo";
+import AboutMenuCard from "../../components/about/AboutMenuCard";
 import { Container } from "@mui/material";
 
 const About = (): ReactElement => {

@@ -4,6 +4,7 @@ import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
 import { School } from "./models/school/School";
 import { setupCache } from "axios-cache-adapter";
+import {User} from "./models/github/user";
 
 const BASE_URL =
   process.env.NODE_ENV !== "production"
@@ -13,6 +14,14 @@ const BASE_URL =
 const cache = setupCache({
   maxAge: 15 * 60 * 1000,
 });
+
+export const getGithubUser = async (
+  username: string
+): Promise<AxiosResponse<User>> =>
+  await axios.request<User>({
+    baseURL: "https://api.github.com",
+    url: `/users/${username}`,
+  });
 
 export const getSearchedSchools = async (
   input: string

@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
 import Timetable from "./views/Timetable";
 import { RecoilRoot } from "recoil";
 import SnackbarError from "./components/root/SnackbarError";
-import About from "./views/About";
+import About from "./views/about/About";
 
 const theme = createTheme({
   palette: {
