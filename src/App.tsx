@@ -6,6 +6,7 @@ import { createTheme, ThemeProvider, Toolbar } from "@mui/material";
 import Timetable from "./views/Timetable";
 import { RecoilRoot } from "recoil";
 import SnackbarError from "./components/root/SnackbarError";
+import About from "./views/About";
 
 const theme = createTheme({
   palette: {
@@ -32,6 +33,7 @@ const App = (): ReactElement => {
               <Route index element={<Home />} />
               <Route path=":id" element={<Timetable />} />
             </Route>
+            <Route path="/about" element={<About />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
