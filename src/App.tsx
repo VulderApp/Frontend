@@ -8,6 +8,7 @@ import { RecoilRoot } from "recoil";
 import SnackbarError from "./components/root/SnackbarError";
 import About from "./views/about/About";
 import Contributors from "./views/about/Contributors";
+import Licenses from "./views/about/Licenses";
 
 const theme = createTheme({
   palette: {
@@ -37,6 +38,7 @@ const App = (): ReactElement => {
             <Route path="/about">
               <Route index element={<About />} />
               <Route path="contributors" element={<Contributors />} />
+              <Route path="licenses" element={<Licenses />} />
             </Route>
           </Routes>
         </BrowserRouter>
