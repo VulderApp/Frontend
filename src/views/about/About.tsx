@@ -2,8 +2,11 @@ import React, { ReactElement } from "react";
 import AboutLogo from "../../components/about/AboutLogo";
 import AboutMenuCard from "../../components/about/AboutMenuCard";
 import { Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const About = (): ReactElement => {
+  const navigate = useNavigate();
+
   return (
     <Container
       sx={{
@@ -12,7 +15,7 @@ const About = (): ReactElement => {
       }}
     >
       <AboutLogo />
-      <AboutMenuCard />
+      <AboutMenuCard navigate={navigate} />
     </Container>
   );
 };

@@ -1,6 +1,3 @@
-[
-  {
-    "displayName": "Daniel Olczyk",
-    "githubName": "MRmlik12"
-  }
-]
+{
+  "filterUsers": ["MRmlik12"]
+}
