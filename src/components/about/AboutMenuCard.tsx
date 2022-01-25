@@ -38,7 +38,7 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/about/licenses")}>
                 <ListItemIcon>
                   <GavelIcon />
                 </ListItemIcon>
