@@ -4,6 +4,8 @@ import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
 import { School } from "./models/school/School";
 import { setupCache } from "axios-cache-adapter";
+import { Contributor } from "./models/github/contributor";
+import { camelizeKeys } from "humps";
 
 const BASE_URL =
   process.env.NODE_ENV !== "production"
@@ -13,6 +15,20 @@ const BASE_URL =
 const cache = setupCache({
   maxAge: 15 * 60 * 1000,
 });
+
+export const getGithubRepoContributors = async (): Promise<
+  AxiosResponse<Contributor[]>
+> => {
+  const client = axios.create({ baseURL: "https://api.github.com" });
+  client.interceptors.response.use((response: AxiosResponse) => {
+    response.data = camelizeKeys(response.data);
+
+    return response;
+  });
+  return client.request<Contributor[]>({
+    url: "/repos/VulderApp/Frontend/contributors",
+  });
+};
 
 export const getSearchedSchools = async (
   input: string

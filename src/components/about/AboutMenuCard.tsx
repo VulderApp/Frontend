@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -14,8 +14,13 @@ import InfoIcon from "@mui/icons-material/Info";
 import GavelIcon from "@mui/icons-material/Gavel";
 import PeopleIcon from "@mui/icons-material/People";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { NavigateFunction } from "react-router-dom";
 
-const AboutMenuCard = (): ReactElement => {
+interface AboutMenuCardProps {
+  navigate: NavigateFunction;
+}
+
+const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
   const VERSION = "0.1.0";
 
   return (
@@ -45,7 +50,7 @@ const AboutMenuCard = (): ReactElement => {
             </ListItem>
             <Divider />
             <ListItem>
-              <ListItemButton>
+              <ListItemButton onClick={() => navigate("/about/contributors")}>
                 <ListItemIcon>
                   <PeopleIcon />
                 </ListItemIcon>
