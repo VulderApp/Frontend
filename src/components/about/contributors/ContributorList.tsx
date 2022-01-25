@@ -17,6 +17,7 @@ const ContributorList = (): ReactElement => {
 
       return value;
     });
+
     setContributors(mappedContributors);
   };
 
