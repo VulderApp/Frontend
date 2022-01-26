@@ -4,13 +4,15 @@ import AboutMenuCard from "../../components/about/AboutMenuCard";
 import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import { subpage } from "../../states";
+import { appbarTitle, subpage } from "../../states";
 
 const About = (): ReactElement => {
   const setSubpage = useSetRecoilState(subpage);
+  const setAppbarTitle = useSetRecoilState(appbarTitle);
   const navigate = useNavigate();
 
   useEffect(() => {
+    setAppbarTitle("About");
     setSubpage(true);
   }, []);
 
