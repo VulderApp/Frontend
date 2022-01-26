@@ -3,13 +3,16 @@ import React, { ReactElement, useEffect } from "react";
 import HomeLogo from "../components/home/HomeLogo";
 import HomeSearch from "../components/home/HomeSearch";
 import { useSetRecoilState } from "recoil";
-import { isTimetableView, subpage } from "../states";
+import { appbarTitle, isTimetableView, subpage } from "../states";
+import { HOME_APPBAR_TITLE } from "../constants";
 
 const Home = (): ReactElement => {
   const setSubpage = useSetRecoilState(subpage);
   const setTimetableView = useSetRecoilState(isTimetableView);
+  const setAppbarTitle = useSetRecoilState(appbarTitle);
 
   useEffect(() => {
+    setAppbarTitle(HOME_APPBAR_TITLE);
     setSubpage(false);
     setTimetableView(false);
   });

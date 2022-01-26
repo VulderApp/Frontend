@@ -13,12 +13,12 @@ import {
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { deleteItem } from "../../utils/localStorageUtil";
-import { HOME_APPBAR_TITLE, LAST_SCHOOL_ID } from "../../constants";
+import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
 
 const Appbar = (): ReactElement => {
-  const [title, setTitle] = useRecoilState(appbarTitle);
+  const [title] = useRecoilState(appbarTitle);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
   const setSelectedBranch = useSetRecoilState(actualTimetable);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
@@ -30,7 +30,6 @@ const Appbar = (): ReactElement => {
 
   const handleExitButton = () => {
     deleteItem(LAST_SCHOOL_ID);
-    setTitle(HOME_APPBAR_TITLE);
     setTimetableView(false);
     setSelectedBranch(null);
     navigate("/");
