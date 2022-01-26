@@ -7,26 +7,29 @@ import {
   appbarTitle,
   isTimetableView,
   menuOpen,
+  subpage,
   timetableInfoDialogOpen,
 } from "../../states";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { deleteItem } from "../../utils/localStorageUtil";
 import { HOME_APPBAR_TITLE, LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
+import InfoIcon from "@mui/icons-material/Info";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
 
 const Appbar = (): ReactElement => {
   const [title, setTitle] = useRecoilState(appbarTitle);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
-  const [, setSelectedBranch] = useRecoilState(actualTimetable);
+  const setSelectedBranch = useSetRecoilState(actualTimetable);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
-  const [, setTimetableInfoOpen] = useRecoilState(timetableInfoDialogOpen);
+  const setTimetableInfoOpen = useSetRecoilState(timetableInfoDialogOpen);
+  const isSubpage = useRecoilValue(subpage);
   const navigate = useNavigate();
 
   const handleTimetableInfoButton = () => setTimetableInfoOpen(true);
 
-  const handleBackButton = () => {
+  const handleExitButton = () => {
     deleteItem(LAST_SCHOOL_ID);
     setTitle(HOME_APPBAR_TITLE);
     setTimetableView(false);
@@ -69,11 +72,22 @@ const Appbar = (): ReactElement => {
                 edge="end"
                 color="inherit"
                 aria-label="menu"
-                onClick={handleBackButton}
+                onClick={handleExitButton}
               >
                 <ExitToAppIcon />
               </IconButton>
             </>
+          ) : null}
+          {!isSubpage ? (
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={() => navigate("/about")}
+            >
+              <InfoIcon />
+            </IconButton>
           ) : null}
         </Toolbar>
       </AppBar>

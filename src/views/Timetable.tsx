@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
 import TimetableGrid from "../components/timetable/TimetableGrid";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   actualSchoolId,
   actualTimetable,
   appbarTitle,
   errorMessage,
   isTimetableView,
+  subpage,
   timetableTitle,
 } from "../states";
 import { LAST_SCHOOL_ID } from "../constants";
@@ -28,11 +29,14 @@ const Timetable = (): ReactElement => {
     null
   );
   const [, setErrorMessage] = useRecoilState(errorMessage);
+  const setSubpage = useSetRecoilState(subpage);
   const { id } = useParams();
 
   const onMount = () => {
     const navigate = useNavigate();
     setSchoolId(id);
+    setSubpage(true);
+
     if (id === null) {
       navigate("/");
     }
