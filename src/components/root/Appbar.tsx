@@ -15,7 +15,6 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { deleteItem } from "../../utils/localStorageUtil";
 import { HOME_APPBAR_TITLE, LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
-import InfoIcon from "@mui/icons-material/Info";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
 
 const Appbar = (): ReactElement => {
@@ -86,7 +85,7 @@ const Appbar = (): ReactElement => {
               aria-label="menu"
               onClick={() => navigate("/about")}
             >
-              <InfoIcon />
+              <InfoIconOutlined />
             </IconButton>
           ) : null}
         </Toolbar>
