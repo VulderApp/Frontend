@@ -1,14 +1,18 @@
 import { Container } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import HomeLogo from "../components/home/HomeLogo";
 import HomeSearch from "../components/home/HomeSearch";
-import { useRecoilState } from "recoil";
-import { isTimetableView } from "../states";
+import { useSetRecoilState } from "recoil";
+import { isTimetableView, subpage } from "../states";
 
 const Home = (): ReactElement => {
-  const [, setTimetableView] = useRecoilState(isTimetableView);
+  const setSubpage = useSetRecoilState(subpage);
+  const setTimetableView = useSetRecoilState(isTimetableView);
 
-  setTimetableView(false);
+  useEffect(() => {
+    setSubpage(false);
+    setTimetableView(false);
+  });
 
   return (
     <Container

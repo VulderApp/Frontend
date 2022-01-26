@@ -1,11 +1,18 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import AboutLogo from "../../components/about/AboutLogo";
 import AboutMenuCard from "../../components/about/AboutMenuCard";
 import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { subpage } from "../../states";
 
 const About = (): ReactElement => {
+  const setSubpage = useSetRecoilState(subpage);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSubpage(true);
+  }, []);
 
   return (
     <Container

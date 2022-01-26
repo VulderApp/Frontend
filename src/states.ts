@@ -2,6 +2,11 @@ import { atom } from "recoil";
 import { Branch } from "./api/models/branch/branch";
 import { Timetable } from "./api/models/timetable/timetable";
 
+export const subpage = atom({
+  key: "subpage",
+  default: false,
+});
+
 export const appbarTitle = atom({
   key: "appbarTitle",
   default: "Vulder",
