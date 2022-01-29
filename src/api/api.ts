@@ -51,7 +51,7 @@ export const getBranches = async (
   await axios
     .request<Array<Branch>>({
       baseURL: BASE_URL,
-      url: "/branch/GetBranches",
+      url: "/branches",
       adapter: cache.adapter,
       maxRedirects: 1,
       method: "GET",
@@ -69,13 +69,12 @@ export const getTimetable = async (
   await axios
     .request<Timetable>({
       baseURL: BASE_URL,
-      url: "/timetable/GetTimetable",
+      url: "/timetable",
       adapter: cache.adapter,
       maxRedirects: 1,
       method: "GET",
       params: {
         schoolId,
-        classname,
         shortPath,
       },
     })
