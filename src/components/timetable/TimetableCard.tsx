@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Card, Container, Grid, Typography } from "@mui/material";
+import { Box, Card, Container, Divider, Grid, Typography } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
 
@@ -55,6 +55,7 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
           display: "flex",
           flexDirection: "row",
           flexWrap: "wrap",
+          width: "auto",
           marginTop: 2,
           padding: 1,
           gap: 1,
@@ -66,7 +67,12 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
           return (
             <Container
               key={index}
-              sx={{ display: "flex", flexDirection: "row", gap: 2 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "row",
+                gap: 2,
+              }}
             >
               <Typography sx={{ float: "left" }}>
                 {item.lessonNumber}
@@ -74,19 +80,40 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
               <Typography sx={{ float: "left", marginLeft: 2 }}>
                 {getTimeToString(item.startAt)} - {getTimeToString(item.endAt)}
               </Typography>
-              <Typography sx={{ display: "flex" }}>
-                {item.subject?.join("/") + "\n"}
-                {item.teacher?.flatMap((value, index) =>
-                  item.teacher?.length === index + 1
-                    ? value.initials
-                    : `${value.initials}/`
+              <Typography component="div">
+                {item.subject?.flatMap((value, index) =>
+                  item.subject?.length === index + 1 ? (
+                    value
+                  ) : (
+                    <Box key={index}>
+                      {value}
+                      <Divider />
+                    </Box>
+                  )
                 )}
               </Typography>
-              <Typography>
+              <Typography component="div">
+                {item.teacher?.flatMap((value, index) =>
+                  item.teacher?.length === index + 1 ? (
+                    value.initials
+                  ) : (
+                    <Box key={index}>
+                      {value.initials}
+                      <Divider />
+                    </Box>
+                  )
+                )}
+              </Typography>
+              <Typography component="div">
                 {item.classroom?.flatMap((classroom, index) =>
-                  item.classroom?.length === index + 1
-                    ? classroom.classroomNumber
-                    : `${classroom.classroomNumber}/`
+                  item.classroom?.length === index + 1 ? (
+                    classroom.classroomNumber
+                  ) : (
+                    <Box key={index}>
+                      {classroom.classroomNumber}
+                      <Divider />
+                    </Box>
+                  )
                 )}
               </Typography>
             </Container>
