@@ -51,3 +51,8 @@ export const errorMessage = atom<string | null>({
   key: "errorMessage",
   default: null,
 });
+
+export const networkError = atom<boolean>({
+  key: "networkError",
+  default: false,
+});

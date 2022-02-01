@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CircularProgress, Grid } from "@mui/material";
 import { getTimetable } from "../../api/api";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import TimetableCard from "./TimetableCard";
 import { Week } from "../../api/models/timetable/week";
-import { useRecoilState } from "recoil";
-import { errorMessage, timetableData } from "../../states";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { errorMessage, networkError, timetableData } from "../../states";
+import NetworkFailMessage from "../../components/root/NetworkFailMessage";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -18,17 +19,19 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   className,
   shortPath,
 }) => {
-  const [timetableItems, setTimetableItems] = React.useState<
-    TimetableItem[] | null
-  >(null);
-  const [, setErrorMessage] = useRecoilState(errorMessage);
-  const [, setTimetableData] = useRecoilState(timetableData);
+  const [timetableItems, setTimetableItems] = useState<TimetableItem[] | null>(
+    null
+  );
+  const [netError, setNetworkError] = useRecoilState(networkError);
+  const setErrorMessage = useSetRecoilState(errorMessage);
+  const setTimetableData = useSetRecoilState(timetableData);
 
   const onRender = async () => {
     const response = await getTimetable(schoolId, className, shortPath);
 
     if (typeof response === "string") {
       setErrorMessage(response);
+      setNetworkError(true);
       return;
     }
 
@@ -38,9 +41,9 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => await onRender())();
-  }, []);
+  }, [netError]);
 
   return (
     <Grid
@@ -64,6 +67,8 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
           <TimetableCard timetable={timetableItems} week={Week.Thursday} />
           <TimetableCard timetable={timetableItems} week={Week.Friday} />
         </>
+      ) : netError ? (
+        <NetworkFailMessage />
       ) : (
         <CircularProgress />
       )}
