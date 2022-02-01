@@ -22,7 +22,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   const [timetableItems, setTimetableItems] = useState<TimetableItem[] | null>(
     null
   );
-  const [error, setNetworkError] = useRecoilState(networkError);
+  const [netError, setNetworkError] = useRecoilState(networkError);
   const setErrorMessage = useSetRecoilState(errorMessage);
   const setTimetableData = useSetRecoilState(timetableData);
 
@@ -43,7 +43,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
 
   useEffect(() => {
     (async () => await onRender())();
-  }, [error]);
+  }, [netError]);
 
   return (
     <Grid
@@ -67,7 +67,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
           <TimetableCard timetable={timetableItems} week={Week.Thursday} />
           <TimetableCard timetable={timetableItems} week={Week.Friday} />
         </>
-      ) : error ? (
+      ) : netError ? (
         <NetworkFailMessage />
       ) : (
         <CircularProgress />

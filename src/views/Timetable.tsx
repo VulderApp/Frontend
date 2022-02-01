@@ -29,7 +29,7 @@ const Timetable = (): ReactElement => {
   const [, setSchoolId] = useRecoilState(actualSchoolId);
   const [resetTimetable, setResetTimetable] = useState<number | null>(null);
   const [, setErrorMessage] = useRecoilState(errorMessage);
-  const [error, setNetworkErrorMessage] = useRecoilState(networkError);
+  const [netError, setNetworkErrorMessage] = useRecoilState(networkError);
   const setSubpage = useSetRecoilState(subpage);
   const { id } = useParams();
 
@@ -62,18 +62,19 @@ const Timetable = (): ReactElement => {
   useEffect(() => {
     (async () => {
       if (schoolName !== null) return;
-      if (error) return;
+      if (netError) return;
+
       await setSchoolNameToAppbar();
     })();
-  }, [timetableView, error]);
+  }, [timetableView, netError]);
 
   useEffect(() => {
     if (selectedBranch === null) return;
-    if (error) return;
+    if (netError) return;
 
     setResetTimetable(new Date().getTime());
     setTitle(selectedBranch.name);
-  }, [selectedBranch, error]);
+  }, [selectedBranch, netError]);
 
   onMount();
 
@@ -105,7 +106,7 @@ const Timetable = (): ReactElement => {
             shortPath={selectedBranch!.url!}
           />
         </>
-      ) : error ? (
+      ) : netError ? (
         <NetworkErrorContainer />
       ) : (
         <Container
