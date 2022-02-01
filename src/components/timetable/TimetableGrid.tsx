@@ -30,8 +30,6 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     const response = await getTimetable(schoolId, className, shortPath);
 
     if (typeof response === "string") {
-      // eslint-disable-next-line no-console
-      console.log("XD");
       setErrorMessage(response);
       setNetworkError(true);
       return;
