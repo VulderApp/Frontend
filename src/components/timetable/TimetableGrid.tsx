@@ -6,6 +6,7 @@ import TimetableCard from "./TimetableCard";
 import { Week } from "../../api/models/timetable/week";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { errorMessage, networkError, timetableData } from "../../states";
+import NetworkFailMessage from "../../components/root/NetworkFailMessage";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -29,6 +30,8 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     const response = await getTimetable(schoolId, className, shortPath);
 
     if (typeof response === "string") {
+      // eslint-disable-next-line no-console
+      console.log("XD");
       setErrorMessage(response);
       setNetworkError(true);
       return;
@@ -39,10 +42,6 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
       setTimetableData(response.data);
     }
   };
-
-  useEffect(() => {
-    (async () => await onRender())();
-  }, []);
 
   useEffect(() => {
     (async () => await onRender())();
@@ -71,8 +70,10 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
           <TimetableCard timetable={timetableItems} week={Week.Friday} />
         </>
       ) : error ? (
+        <NetworkFailMessage />
+      ) : (
         <CircularProgress />
-      ) : null}
+      )}
     </Grid>
   );
 };

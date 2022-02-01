@@ -108,21 +108,19 @@ const Timetable = (): ReactElement => {
       ) : error ? (
         <NetworkErrorContainer />
       ) : (
-        <>
-          <Container
-            sx={{
-              display: "flex",
-              minHeight: "80vh",
-              minWidth: "auto",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <CircularProgress />
-          </Container>
-        </>
+        <Container
+          sx={{
+            display: "flex",
+            minHeight: "80vh",
+            minWidth: "auto",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress />
+        </Container>
       )}
       <TimetableInfo />
     </Container>
