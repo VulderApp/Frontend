@@ -27,12 +27,8 @@ const lightTheme = createTheme({
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#ffc107",
-    },
-    secondary: {
-      main: "#ff9100",
-    },
+    primary: lightTheme.palette.primary,
+    secondary: lightTheme.palette.secondary,
   },
 });
 
