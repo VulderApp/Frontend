@@ -1,6 +1,8 @@
 import { atom } from "recoil";
 import { Branch } from "./api/models/branch/branch";
 import { Timetable } from "./api/models/timetable/timetable";
+import { getBooleanItem } from "./utils/localStorageUtil";
+import { LIGHT_MODE_KEY } from "./constants";
 
 export const subpage = atom({
   key: "subpage",
@@ -59,5 +61,5 @@ export const networkError = atom<boolean>({
 
 export const lightMode = atom<boolean>({
   key: "lightMode",
-  default: true,
+  default: getBooleanItem(LIGHT_MODE_KEY) ?? true,
 });

@@ -13,8 +13,8 @@ import {
 } from "../../states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { deleteItem } from "../../utils/localStorageUtil";
-import { LAST_SCHOOL_ID } from "../../constants";
+import { deleteItem, saveItem } from "../../utils/localStorageUtil";
+import { LAST_SCHOOL_ID, LIGHT_MODE_KEY } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
 import DarkModeIconOutlined from "@mui/icons-material/DarkModeOutlined";
@@ -31,6 +31,10 @@ const Appbar = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleTimetableInfoButton = () => setTimetableInfoOpen(true);
+  const handleThemeButton = () => {
+    setLightMode(!isLightMode);
+    saveItem(LIGHT_MODE_KEY, String(!isLightMode));
+  };
 
   const handleExitButton = () => {
     deleteItem(LAST_SCHOOL_ID);
@@ -100,9 +104,9 @@ const Appbar = (): ReactElement => {
             edge="end"
             color="inherit"
             aria-label="menu"
-            onClick={() => setLightMode(!isLightMode)}
+            onClick={handleThemeButton}
           >
-            {isLightMode ? <LightModeIconOutlined /> : <DarkModeIconOutlined />}
+            {isLightMode ? <DarkModeIconOutlined /> : <LightModeIconOutlined />}
           </IconButton>
         </Toolbar>
       </AppBar>
