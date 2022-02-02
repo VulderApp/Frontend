@@ -6,19 +6,23 @@ import {
   actualTimetable,
   appbarTitle,
   isTimetableView,
+  lightMode,
   menuOpen,
   subpage,
   timetableInfoDialogOpen,
 } from "../../states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { deleteItem } from "../../utils/localStorageUtil";
-import { LAST_SCHOOL_ID } from "../../constants";
+import { deleteItem, saveItem } from "../../utils/localStorageUtil";
+import { LAST_SCHOOL_ID, LIGHT_MODE_KEY } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
+import DarkModeIconOutlined from "@mui/icons-material/DarkModeOutlined";
+import LightModeIconOutlined from "@mui/icons-material/LightModeOutlined";
 
 const Appbar = (): ReactElement => {
   const [title] = useRecoilState(appbarTitle);
+  const [isLightMode, setLightMode] = useRecoilState(lightMode);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
   const setSelectedBranch = useSetRecoilState(actualTimetable);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
@@ -27,6 +31,10 @@ const Appbar = (): ReactElement => {
   const navigate = useNavigate();
 
   const handleTimetableInfoButton = () => setTimetableInfoOpen(true);
+  const handleThemeButton = () => {
+    setLightMode(!isLightMode);
+    saveItem(LIGHT_MODE_KEY, String(!isLightMode));
+  };
 
   const handleExitButton = () => {
     deleteItem(LAST_SCHOOL_ID);
@@ -38,7 +46,11 @@ const Appbar = (): ReactElement => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
-        <Toolbar>
+        <Toolbar
+          sx={{
+            gap: 1,
+          }}
+        >
           {timetableView ? (
             <IconButton
               sx={{ mr: 2 }}
@@ -87,6 +99,15 @@ const Appbar = (): ReactElement => {
               <InfoIconOutlined />
             </IconButton>
           ) : null}
+          <IconButton
+            size="large"
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleThemeButton}
+          >
+            {isLightMode ? <DarkModeIconOutlined /> : <LightModeIconOutlined />}
+          </IconButton>
         </Toolbar>
       </AppBar>
       {timetableView ? <BranchDrawer /> : null}
