@@ -56,3 +56,8 @@ export const networkError = atom<boolean>({
   key: "networkError",
   default: false,
 });
+
+export const lightMode = atom<boolean>({
+  key: "lightMode",
+  default: true,
+});
