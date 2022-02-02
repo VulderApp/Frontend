@@ -68,7 +68,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.2.0",
-    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react": "^7.28.0",
     "license-report": "^4.5.0",
     "prettier": "^2.5.1",
     "source-map-loader": "^3.0.1"
