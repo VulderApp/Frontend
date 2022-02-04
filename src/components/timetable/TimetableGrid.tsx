@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CircularProgress, Grid } from "@mui/material";
+import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { getTimetable } from "../../api/api";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import TimetableCard from "./TimetableCard";
@@ -19,6 +19,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   className,
   shortPath,
 }) => {
+  const desktopWidth = useMediaQuery("(min-width:1850px)");
   const [timetableItems, setTimetableItems] = useState<TimetableItem[] | null>(
     null
   );
@@ -36,7 +37,11 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     }
 
     if (response.status === 200) {
-      setTimetableItems(response.data.timetableItems);
+      setTimetableItems(
+        response.data.timetableItems.sort(
+          (a, b) => a.lessonNumber! + b.lessonNumber!
+        )
+      );
       setTimetableData(response.data);
     }
   };
@@ -52,8 +57,9 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
         minHeight: "80vh",
         minWidth: "auto",
         flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "center",
+        flexWrap: desktopWidth ? "nowrap" : "wrap",
+        alignContent: "center",
+        alignItems: "baseline",
         justifyContent: "center",
       }}
       container
