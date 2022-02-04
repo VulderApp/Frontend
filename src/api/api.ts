@@ -16,6 +16,13 @@ const cache = setupCache({
   maxAge: 15 * 60 * 1000,
 });
 
+const baseClient = axios.create({
+  baseURL: BASE_URL,
+  adapter: cache.adapter,
+  method: "GET",
+  maxRedirects: 1,
+});
+
 export const getGithubRepoContributors = async (): Promise<
   AxiosResponse<Contributor[]>
 > => {
@@ -25,6 +32,7 @@ export const getGithubRepoContributors = async (): Promise<
 
     return response;
   });
+
   return client.request<Contributor[]>({
     url: "/repos/VulderApp/Frontend/contributors",
   });
@@ -33,12 +41,9 @@ export const getGithubRepoContributors = async (): Promise<
 export const getSearchedSchools = async (
   input: string
 ): Promise<AxiosResponse<Array<FindItem>> | string> =>
-  await axios
+  await baseClient
     .request<Array<FindItem>>({
-      baseURL: BASE_URL,
       url: "/school/FindSchools",
-      maxRedirects: 1,
-      method: "GET",
       params: {
         input: input,
       },
@@ -48,12 +53,9 @@ export const getSearchedSchools = async (
 export const getBranches = async (
   schoolId: string
 ): Promise<AxiosResponse<Array<Branch>> | string> =>
-  await axios
+  await baseClient
     .request<Array<Branch>>({
-      baseURL: BASE_URL,
       url: "/branches",
-      adapter: cache.adapter,
-      maxRedirects: 1,
       method: "GET",
       params: {
         schoolId,
@@ -66,12 +68,9 @@ export const getTimetable = async (
   classname: string,
   shortPath: string
 ): Promise<AxiosResponse<Timetable> | string> =>
-  await axios
+  await baseClient
     .request<Timetable>({
-      baseURL: BASE_URL,
       url: "/timetable",
-      adapter: cache.adapter,
-      maxRedirects: 1,
       method: "GET",
       params: {
         schoolId,
@@ -83,12 +82,9 @@ export const getTimetable = async (
 export const getSchoolDetails = async (
   schoolId: string
 ): Promise<AxiosResponse<School> | string> =>
-  await axios
+  await baseClient
     .request<School>({
-      baseURL: BASE_URL,
       url: "/school/GetSchool",
-      adapter: cache.adapter,
-      maxRedirects: 1,
       method: "GET",
       params: {
         schoolId,
