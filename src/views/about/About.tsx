@@ -5,6 +5,7 @@ import { Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { appbarTitle, subpage } from "../../states";
+import i18next from "../../i18n";
 
 const About = (): ReactElement => {
   const setSubpage = useSetRecoilState(subpage);
@@ -12,7 +13,7 @@ const About = (): ReactElement => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setAppbarTitle("About");
+    setAppbarTitle(i18next.t("about"));
     setSubpage(true);
   }, []);
 

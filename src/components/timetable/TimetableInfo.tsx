@@ -9,22 +9,26 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { timetableData, timetableInfoDialogOpen } from "../../states";
+import { useTranslation } from "react-i18next";
 
 const TimetableInfo = (): ReactElement => {
   const [open, setOpen] = useRecoilState(timetableInfoDialogOpen);
   const [timetableInfo] = useRecoilState(timetableData);
+  const { t } = useTranslation();
 
   const handleClose = () => setOpen(false);
 
   return (
     <Dialog open={open}>
-      <DialogTitle>More information about timetable</DialogTitle>
+      <DialogTitle>{t("informationAboutTimetableTitle")}</DialogTitle>
       <DialogContent>
         <Typography>
-          Generated at{" "}
+          {t("informationAboutTimetableGeneratedAt")}{" "}
           {new Date(timetableInfo?.generatedAt!).toLocaleDateString()}
         </Typography>
-        <Typography>Valid from {timetableInfo?.validFrom}</Typography>
+        <Typography>
+          {t("informationAboutTimetableValidFrom")} {timetableInfo?.validFrom}
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose}>
