@@ -15,12 +15,14 @@ import GavelIcon from "@mui/icons-material/Gavel";
 import PeopleIcon from "@mui/icons-material/People";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { NavigateFunction } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface AboutMenuCardProps {
   navigate: NavigateFunction;
 }
 
 const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
+  const { t } = useTranslation();
   const VERSION = "0.1.0";
 
   return (
@@ -33,7 +35,7 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
                 <ListItemIcon>
                   <InfoIcon />
                 </ListItemIcon>
-                <ListItemText primary="Version" secondary={VERSION} />
+                <ListItemText primary={t("versionLabel")} secondary={VERSION} />
               </ListItemButton>
             </ListItem>
             <Divider />
@@ -43,8 +45,8 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
                   <GavelIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Licenses"
-                  secondary="See used licences"
+                  primary={t("licensesLabel")}
+                  secondary={t("licensesDescription")}
                 />
               </ListItemButton>
             </ListItem>
@@ -55,8 +57,8 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
                   <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Contributors"
-                  secondary="See all the people who help us"
+                  primary={t("contributorsLabel")}
+                  secondary={t("contributorsDescription")}
                 />
               </ListItemButton>
             </ListItem>

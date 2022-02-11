@@ -15,6 +15,7 @@ import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { appbarTitle, errorMessage } from "../../states";
+import i18next from "../../i18n";
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -75,7 +76,7 @@ const HomeSearch = (): ReactElement => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Type here your school name"
+            label={i18next.t("searchBoxDescription")}
             InputProps={{
               ...params.InputProps,
               endAdornment: (

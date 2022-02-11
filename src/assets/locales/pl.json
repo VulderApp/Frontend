@@ -1,0 +1,20 @@
+{
+  "searchBoxDescription": "Wpisz tutaj nazwę twojej szkoły",
+  "about": "O aplikacji",
+  "versionLabel": "Wersja",
+  "licensesLabel": "Licencje",
+  "licensesDescription": "Zobacz używane licencje",
+  "contributorsLabel": "Kontrybutorzy",
+  "contributorsDescription": "Zobacz wsyzstkich ludzi, którzy pomogli nam przy tworzeniu aplikacji",
+  "branchClasses": "Klasy",
+  "branchTeachers": "Nauczyciele",
+  "branchClassrooms": "Sale",
+  "informationAboutTimetableTitle": "Więcej informacji o planie lekcji",
+  "informationAboutTimetableGeneratedAt": "Wygenerowano",
+  "informationAboutTimetableValidFrom": "Obowiązuje od",
+  "monday": "Poniedziałek",
+  "tuesday": "Wtorek",
+  "wednesday": "Środa",
+  "thursday": "Czwartek",
+  "friday": "Piątek"
+}

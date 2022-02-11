@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Box, Card, Divider, Grid, Typography } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
+import { useTranslation } from "react-i18next";
 
 interface TimetableCardProps {
   timetable: TimetableItem[];
@@ -9,6 +10,7 @@ interface TimetableCardProps {
 }
 
 const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
+  const { t } = useTranslation();
   // const getTimeToString = (date: Date): string =>
   //   new Date(date).toLocaleTimeString([], {
   //     hour: "2-digit",
@@ -20,19 +22,19 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
 
     switch (week) {
       case Week.Monday:
-        day = "Monday";
+        day = t("monday");
         break;
       case Week.Tuesday:
-        day = "Tuesday";
+        day = t("tuesday");
         break;
       case Week.Wednesday:
-        day = "Wednesday";
+        day = t("wednesday");
         break;
       case Week.Thursday:
-        day = "Thursday";
+        day = t("thursday");
         break;
       case Week.Friday:
-        day = "Friday";
+        day = t("friday");
         break;
     }
 

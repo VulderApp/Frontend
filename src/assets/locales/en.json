@@ -1,0 +1,20 @@
+{
+  "searchBoxDescription": "Type here your school name",
+  "about": "About",
+  "versionLabel": "Version",
+  "licensesLabel": "Licenses",
+  "licensesDescription": "See used licences",
+  "contributorsLabel": "Contributors",
+  "contributorsDescription": "See all the people who help us",
+  "branchClasses": "Classes",
+  "branchTeachers": "Teachers",
+  "branchClassrooms": "Classrooms",
+  "informationAboutTimetableTitle": "More information about timetable",
+  "informationAboutTimetableGeneratedAt": "Generated at",
+  "informationAboutTimetableValidFrom": "Valid from",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday"
+}

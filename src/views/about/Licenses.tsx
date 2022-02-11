@@ -3,12 +3,13 @@ import { useSetRecoilState } from "recoil";
 import { appbarTitle } from "../../states";
 import LicenseCard from "../../components/about/licenses/LicenseCard";
 import { Container } from "@mui/material";
+import i18next from "../../i18n";
 
 const Licenses = (): ReactElement => {
   const setTitle = useSetRecoilState(appbarTitle);
 
   useEffect(() => {
-    setTitle("Licenses");
+    setTitle(i18next.t("licensesLabel"));
   }, []);
 
   return (

@@ -23,6 +23,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { Branch } from "../../api/models/branch/branch";
 import { getBranches } from "../../api/api";
 import { BranchType } from "../../api/models/branch/branchType";
+import { useTranslation } from "react-i18next";
 
 const drawerWidth = 250;
 
@@ -35,6 +36,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const BranchDrawer = (): ReactElement => {
+  const { t } = useTranslation();
   const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
   const [branchIndex, setBranchIndex] = React.useState(0);
@@ -88,13 +90,13 @@ const BranchDrawer = (): ReactElement => {
 
   const renderBranchItems = (): ReactElement => (
     <>
-      <List subheader={<ListSubheader>Classes</ListSubheader>}>
+      <List subheader={<ListSubheader>{t("branchClasses")}</ListSubheader>}>
         {renderBranchCategory(BranchType.Class)}
       </List>
-      <List subheader={<ListSubheader>Teachers</ListSubheader>}>
+      <List subheader={<ListSubheader>{t("branchTeachers")}</ListSubheader>}>
         {renderBranchCategory(BranchType.Teacher)}
       </List>
-      <List subheader={<ListSubheader>Classrooms</ListSubheader>}>
+      <List subheader={<ListSubheader>{t("branchClassrooms")}</ListSubheader>}>
         {renderBranchCategory(BranchType.ClassRoom)}
       </List>
     </>
