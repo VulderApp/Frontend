@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback } from "react";
+import React, { ReactElement, useRef } from "react";
 import {
   Autocomplete,
   CircularProgress,
@@ -19,7 +19,6 @@ import i18next from "../../i18n";
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
-  const [userInput, setUserInput] = React.useState("");
   const [value, setValue] = React.useState<FindItem | null>(null);
   const [options, setOptions] = React.useState<readonly FindItem[]>([]);
   const loading = open && options.length === 0;
@@ -27,10 +26,10 @@ const HomeSearch = (): ReactElement => {
   const [, setErrorMessage] = useRecoilState(errorMessage);
   const navigate = useNavigate();
 
-  const handleSearch = async () => {
-    if (userInput.trim().length === 0) return;
+  const handleSearch = async (input: string) => {
+    if (input.trim().length === 0) return;
 
-    const response = await getSearchedSchools(userInput);
+    const response = await getSearchedSchools(input);
     if (typeof response === "string") {
       setErrorMessage(response);
       return;
@@ -46,13 +45,19 @@ const HomeSearch = (): ReactElement => {
     navigate(`/timetable/${value?.id!}`);
   };
 
-  const debounceOnInputChange = useCallback(debounce(handleSearch, 1500), [
-    userInput,
-  ]);
+  const debouncedSearch = useRef(
+    debounce(async (input: string) => await handleSearch(input), 1500)
+  ).current;
 
   React.useEffect(() => {
     if (!open) setOptions([]);
   }, [open]);
+
+  React.useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  }, [debouncedSearch]);
 
   return (
     <Container>
@@ -64,10 +69,7 @@ const HomeSearch = (): ReactElement => {
         getOptionLabel={(option) => option.name}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        onInputChange={(_, value) => {
-          setUserInput(value);
-          debounceOnInputChange();
-        }}
+        onInputChange={(_, value) => debouncedSearch(value)}
         onChange={(event, value) => {
           setOptions(value ? [value, ...options] : options);
           setValue(value);
