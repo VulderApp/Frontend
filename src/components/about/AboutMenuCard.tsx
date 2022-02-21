@@ -21,9 +21,10 @@ interface AboutMenuCardProps {
   navigate: NavigateFunction;
 }
 
+declare const VERSION: string;
+
 const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
   const { t } = useTranslation();
-  const VERSION = "0.1.0";
 
   return (
     <Container>

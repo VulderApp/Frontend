@@ -32,7 +32,7 @@ const Timetable = (): ReactElement => {
   const [, setErrorMessage] = useRecoilState(errorMessage);
   const [netError, setNetworkErrorMessage] = useRecoilState(networkError);
   const setSubpage = useSetRecoilState(subpage);
-  const { id } = useParams();
+  const { id, className } = useParams();
 
   const onMount = () => {
     const navigate = useNavigate();
@@ -75,6 +75,8 @@ const Timetable = (): ReactElement => {
 
     setResetTimetable(new Date().getTime());
     setTitle(selectedBranch.name);
+    // eslint-disable-next-line no-console
+    console.log(className);
     document.title = changeTitle(`${schoolName} / ${selectedBranch!.name!}`);
   }, [selectedBranch, netError]);
 
