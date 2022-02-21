@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { appbarTitle, subpage } from "../../states";
 import i18next from "../../i18n";
+import { changeTitle } from "../../utils/titleUtil";
 
 const About = (): ReactElement => {
   const setSubpage = useSetRecoilState(subpage);
@@ -15,6 +16,7 @@ const About = (): ReactElement => {
   useEffect(() => {
     setAppbarTitle(i18next.t("about"));
     setSubpage(true);
+    document.title = changeTitle(i18next.t("about"));
   }, []);
 
   return (
