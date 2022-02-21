@@ -15,6 +15,7 @@ const Home = (): ReactElement => {
     setAppbarTitle(HOME_APPBAR_TITLE);
     setSubpage(false);
     setTimetableView(false);
+    document.title = HOME_APPBAR_TITLE;
   });
 
   return (

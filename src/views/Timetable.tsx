@@ -19,6 +19,7 @@ import TimetableTitle from "../components/timetable/TimetableTitle";
 import { getSchoolDetails } from "../api/api";
 import TimetableInfo from "../components/timetable/TimetableInfo";
 import NetworkFailMessage from "../components/root/NetworkFailMessage";
+import { changeTitle } from "../utils/titleUtil";
 
 const Timetable = (): ReactElement => {
   const selectedBranch = useRecoilValue(actualTimetable);
@@ -74,6 +75,7 @@ const Timetable = (): ReactElement => {
 
     setResetTimetable(new Date().getTime());
     setTitle(selectedBranch.name);
+    document.title = changeTitle(`${schoolName} / ${selectedBranch!.name!}`);
   }, [selectedBranch, netError]);
 
   onMount();

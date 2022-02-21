@@ -46,7 +46,9 @@ const App = (): ReactElement => {
           <Route path="/" element={<Home />} />
           <Route path="/timetable">
             <Route index element={<Home />} />
-            <Route path=":id" element={<Timetable />} />
+            <Route path=":id" element={<Timetable />}>
+              <Route index element={<Timetable />} />
+            </Route>
           </Route>
           <Route path="/about">
             <Route index element={<About />} />

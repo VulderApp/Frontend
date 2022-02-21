@@ -4,12 +4,14 @@ import { appbarTitle } from "../../states";
 import LicenseCard from "../../components/about/licenses/LicenseCard";
 import { Container } from "@mui/material";
 import i18next from "../../i18n";
+import { changeTitle } from "../../utils/titleUtil";
 
 const Licenses = (): ReactElement => {
   const setTitle = useSetRecoilState(appbarTitle);
 
   useEffect(() => {
     setTitle(i18next.t("licensesLabel"));
+    document.title = changeTitle(i18next.t("licensesLabel"));
   }, []);
 
   return (
