@@ -36,8 +36,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const BranchDrawer = (): ReactElement => {
-  const { t } = useTranslation();
-  const theme = useTheme();
   const [open, setOpen] = useRecoilState(menuOpen);
   const [branchIndex, setBranchIndex] = React.useState(0);
   const [, setSelectedBranch] = useRecoilState(actualTimetable);
@@ -46,6 +44,8 @@ const BranchDrawer = (): ReactElement => {
   const [schoolId] = useRecoilState(actualSchoolId);
   const [load, setLoad] = React.useState(true);
   const [, setErrorMessage] = useRecoilState(errorMessage);
+  const { t } = useTranslation();
+  const theme = useTheme();
 
   const onMount = async () => {
     const response = await getBranches(schoolId!);
