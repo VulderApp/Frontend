@@ -16,5 +16,8 @@
   "tuesday": "Tuesday",
   "wednesday": "Wednesday",
   "thursday": "Thursday",
-  "friday": "Friday"
+  "friday": "Friday",
+  "optionsLightThemeLabel": "Light",
+  "optionsDarkThemeLabel": "Dark",
+  "optionsLanguageLabel": "Language"
 }

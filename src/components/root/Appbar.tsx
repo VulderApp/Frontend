@@ -1,40 +1,48 @@
-import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
-import React, { ReactElement } from "react";
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Menu,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import React, { ReactElement, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import BranchDrawer from "./BranchDrawer";
 import {
   actualTimetable,
   appbarTitle,
   isTimetableView,
-  lightMode,
   menuOpen,
   subpage,
   timetableInfoDialogOpen,
 } from "../../states";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { deleteItem, saveItem } from "../../utils/localStorageUtil";
-import { LAST_SCHOOL_ID, LIGHT_MODE_KEY } from "../../constants";
+import { deleteItem } from "../../utils/localStorageUtil";
+import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
-import DarkModeIconOutlined from "@mui/icons-material/DarkModeOutlined";
-import LightModeIconOutlined from "@mui/icons-material/LightModeOutlined";
+import SettingsIconOutlined from "@mui/icons-material/SettingsOutlined";
+import SettingsMenuItems from "./SettingsMenuItems";
 
 const Appbar = (): ReactElement => {
   const [title] = useRecoilState(appbarTitle);
-  const [isLightMode, setLightMode] = useRecoilState(lightMode);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
   const setSelectedBranch = useSetRecoilState(actualTimetable);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
   const setTimetableInfoOpen = useSetRecoilState(timetableInfoDialogOpen);
+  const [settingsAnchorElement, setSettingsAnchorElement] =
+    useState<HTMLElement | null>();
+  const settingsOpen = Boolean(settingsAnchorElement);
   const isSubpage = useRecoilValue(subpage);
   const navigate = useNavigate();
 
+  const handleSettingsOpen = (event: React.MouseEvent<HTMLElement>) =>
+    setSettingsAnchorElement(event.currentTarget);
+  const handleSettingsClose = () => setSettingsAnchorElement(null);
+
   const handleTimetableInfoButton = () => setTimetableInfoOpen(true);
-  const handleThemeButton = () => {
-    setLightMode(!isLightMode);
-    saveItem(LIGHT_MODE_KEY, String(!isLightMode));
-  };
 
   const handleExitButton = () => {
     deleteItem(LAST_SCHOOL_ID);
@@ -104,13 +112,20 @@ const Appbar = (): ReactElement => {
             edge="end"
             color="inherit"
             aria-label="menu"
-            onClick={handleThemeButton}
+            onClick={handleSettingsOpen}
           >
-            {isLightMode ? <DarkModeIconOutlined /> : <LightModeIconOutlined />}
+            <SettingsIconOutlined />
           </IconButton>
         </Toolbar>
       </AppBar>
       {timetableView ? <BranchDrawer /> : null}
+      <Menu
+        anchorEl={settingsAnchorElement}
+        open={settingsOpen}
+        onClose={handleSettingsClose}
+      >
+        <SettingsMenuItems />
+      </Menu>
     </Box>
   );
 };
