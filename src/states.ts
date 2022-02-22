@@ -1,8 +1,9 @@
 import { atom } from "recoil";
 import { Branch } from "./api/models/branch/branch";
 import { Timetable } from "./api/models/timetable/timetable";
-import { getBooleanItem } from "./utils/localStorageUtil";
-import { LIGHT_MODE_KEY } from "./constants";
+import { getBooleanItem, getItem } from "./utils/localStorageUtil";
+import { LANGUAGE_KEY, LIGHT_MODE_KEY } from "./constants";
+import { getLanguageShortCode } from "./utils/languageUtil";
 
 export const subpage = atom({
   key: "subpage",
@@ -62,4 +63,9 @@ export const networkError = atom<boolean>({
 export const lightMode = atom<boolean>({
   key: "lightMode",
   default: getBooleanItem(LIGHT_MODE_KEY) ?? true,
+});
+
+export const language = atom<string>({
+  key: "language",
+  default: getItem(LANGUAGE_KEY) ?? getLanguageShortCode(),
 });
