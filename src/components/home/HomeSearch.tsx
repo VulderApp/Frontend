@@ -1,9 +1,11 @@
 import React, { ReactElement, useRef } from "react";
 import {
   Autocomplete,
+  Box,
   CircularProgress,
   Container,
   IconButton,
+  Link,
   TextField,
 } from "@mui/material";
 import { FindItem } from "../../api/models/find/FindItem";
@@ -15,7 +17,9 @@ import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { appbarTitle, errorMessage } from "../../states";
-import i18next from "../../i18n";
+import { useTranslation } from "react-i18next";
+
+declare const FORM_APP_URL: string;
 
 const HomeSearch = (): ReactElement => {
   const [open, setOpen] = React.useState(false);
@@ -25,6 +29,7 @@ const HomeSearch = (): ReactElement => {
   const [, setAppbarTitle] = useRecoilState(appbarTitle);
   const [, setErrorMessage] = useRecoilState(errorMessage);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleSearch = async (input: string) => {
     if (input.trim().length === 0) return;
@@ -75,10 +80,24 @@ const HomeSearch = (): ReactElement => {
           setValue(value);
         }}
         options={options}
+        loadingText={t("loadingSearchBarText")}
+        noOptionsText={
+          <Box>
+            {t("noOptionsSearchBarText")}{" "}
+            <Link
+              sx={{ cursor: "pointer" }}
+              href={FORM_APP_URL}
+              color="inherit"
+              underline="hover"
+            >
+              {t("noOptionsRegisterLinkText")}
+            </Link>
+          </Box>
+        }
         renderInput={(params) => (
           <TextField
             {...params}
-            label={i18next.t("searchBoxDescription")}
+            label={t("searchBoxDescription")}
             InputProps={{
               ...params.InputProps,
               endAdornment: (

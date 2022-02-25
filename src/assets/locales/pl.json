@@ -1,5 +1,8 @@
 {
   "searchBoxDescription": "Wpisz tutaj nazwę twojej szkoły",
+  "loadingSearchBarText": "Ładowanie...",
+  "noOptionsSearchBarText": "Nie ma twojej szkoły?",
+  "noOptionsRegisterLinkText": "Kliknij tutaj, aby ją zarejestrować",
   "about": "O aplikacji",
   "versionLabel": "Wersja",
   "licensesLabel": "Licencje",
