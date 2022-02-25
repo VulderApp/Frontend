@@ -1,5 +1,8 @@
 {
   "searchBoxDescription": "Type here your school name",
+  "loadingSearchBarText": "Loading...",
+  "noOptionsSearchBarText": "Your school isn't here?",
+  "noOptionsRegisterLinkText": "Click here to register",
   "about": "About",
   "versionLabel": "Version",
   "licensesLabel": "Licenses",
