@@ -7,6 +7,8 @@ import { Week } from "../../api/models/timetable/week";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { errorMessage, networkError, timetableData } from "../../states";
 import NetworkFailMessage from "../../components/root/NetworkFailMessage";
+import moment from "moment";
+import TimetableHours from "./TimetableHours";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -24,6 +26,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     null
   );
   const [netError, setNetworkError] = useRecoilState(networkError);
+  const [hours, setHours] = useState<string[]>([]);
   const setErrorMessage = useSetRecoilState(errorMessage);
   const setTimetableData = useSetRecoilState(timetableData);
 
@@ -37,11 +40,24 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     }
 
     if (response.status === 200) {
+      let lesson = 0;
       setTimetableItems(
         response.data.timetableItems.sort(
           (a, b) => a.lessonNumber! + b.lessonNumber!
         )
       );
+
+      response.data.timetableItems?.forEach((item) => {
+        if (item.lessonNumber! > lesson) {
+          const date = `${moment(item.startAt).format("LT")} - ${moment(
+            item.endAt
+          ).format("LT")}`;
+          setHours([...hours, date]);
+        }
+
+        lesson++;
+      });
+
       setTimetableData(response.data);
     }
   };
@@ -67,6 +83,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     >
       {timetableItems ? (
         <>
+          <TimetableHours hours={hours} />
           <TimetableCard timetable={timetableItems} week={Week.Monday} />
           <TimetableCard timetable={timetableItems} week={Week.Tuesday} />
           <TimetableCard timetable={timetableItems} week={Week.Wednesday} />

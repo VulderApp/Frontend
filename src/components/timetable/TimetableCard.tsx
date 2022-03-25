@@ -11,11 +11,6 @@ interface TimetableCardProps {
 
 const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
   const { t } = useTranslation();
-  // const getTimeToString = (date: Date): string =>
-  //   new Date(date).toLocaleTimeString([], {
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //   });
 
   const RenderCardWithDay = (): ReactElement => {
     let day;
