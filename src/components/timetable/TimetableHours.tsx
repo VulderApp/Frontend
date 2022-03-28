@@ -14,7 +14,19 @@ const TimetableHours: React.FC<TimetableHoursProps> = ({ hours }) => {
         </Typography>
       </Card>
       {hours.map((item, index) => (
-        <Card key={index} sx={{ textAlign: "center", padding: 2 }}>
+        <Card
+          key={index}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            width: "auto",
+            marginTop: 2,
+            padding: 1,
+            gap: 1,
+          }}
+        >
           <Typography component="a">{item}</Typography>
         </Card>
       ))}

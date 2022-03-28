@@ -41,23 +41,25 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
 
     if (response.status === 200) {
       let lesson = 0;
-      setTimetableItems(
-        response.data.timetableItems.sort(
-          (a, b) => a.lessonNumber! + b.lessonNumber!
-        )
+      const sortedItems = response.data.timetableItems.sort(
+        (a, b) => a.lessonNumber! - b.lessonNumber!
       );
 
-      response.data.timetableItems?.forEach((item) => {
+      let hours: string[] = [];
+      sortedItems.forEach((item) => {
         if (item.lessonNumber! > lesson) {
           const date = `${moment(item.startAt).format("LT")} - ${moment(
             item.endAt
           ).format("LT")}`;
-          setHours([...hours, date]);
+          hours = [...hours, date];
+          ++lesson;
         }
-
-        lesson++;
       });
 
+      // eslint-disable-next-line no-console
+      console.log(hours);
+      setHours(hours);
+      setTimetableItems(sortedItems);
       setTimetableData(response.data);
     }
   };
