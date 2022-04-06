@@ -24,6 +24,7 @@ const TimetableHours: React.FC<TimetableHoursProps> = ({ hours }) => {
             width: "auto",
             marginTop: 2,
             padding: 1,
+            minHeight: "6rem",
             gap: 1,
           }}
         >
