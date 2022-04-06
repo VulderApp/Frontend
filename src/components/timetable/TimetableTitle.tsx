@@ -8,7 +8,12 @@ const TimetableTitle = (): ReactElement => {
 
   return (
     <Typography
-      sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "2rem",
+      }}
       variant="h2"
       component="div"
     >

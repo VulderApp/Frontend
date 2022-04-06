@@ -1,8 +1,16 @@
 import React, { ReactElement } from "react";
-import { Box, Card, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
 import { useTranslation } from "react-i18next";
+import { getTimetableTime } from "../../utils/timeUtil";
 
 interface TimetableCardProps {
   timetable: TimetableItem[];
@@ -10,6 +18,7 @@ interface TimetableCardProps {
 }
 
 const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
+  const isMobile = useMediaQuery("(max-width:1850px)");
   const { t } = useTranslation();
 
   const RenderCardWithDay = (): ReactElement => {
@@ -60,16 +69,22 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
               alignItems: "center",
               width: "auto",
               marginTop: 2,
+              marginBottom: 2,
               padding: 1,
+              minHeight: isMobile ? "4rem" : "6rem",
               gap: 1,
             }}
           >
-            {/* <Typography sx={{ float: "left" }} component="a"> */}
-            {/*  {item.lessonNumber} */}
-            {/* </Typography> */}
-            {/* <Typography sx={{ float: "left", marginLeft: 2 }} component="a"> */}
-            {/*  {getTimeToString(item.startAt)} - {getTimeToString(item.endAt)} */}
-            {/* </Typography> */}
+            {isMobile ? (
+              <>
+                <Typography sx={{ float: "left" }} component="a">
+                  {item.lessonNumber}.
+                </Typography>
+                <Typography sx={{ float: "left", marginLeft: 2 }} component="a">
+                  {getTimetableTime(item.startAt, item.endAt)}
+                </Typography>
+              </>
+            ) : null}
             <Typography component="a">
               {item.subject?.flatMap((value, index) =>
                 item.subject?.length === index + 1 ? (
