@@ -5,6 +5,8 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { errorMessage, networkError, timetableData } from "../../states";
 import NetworkFailMessage from "../../components/root/NetworkFailMessage";
 import TimetableData from "./TimetableData";
+import TimetableHeaders from "./TimetableHeaders";
+import { TimetableItem } from "../../api/models/timetable/timetableItem";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -39,8 +41,8 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
       const sortedItems = response.data.timetableItems.sort(
         (a, b) => a.lessonNumber! - b.lessonNumber!
       );
-      
-      setMaxLessons(sortedItems[sortedItems.length - 1].lessonNumber);
+
+      setMaxLessons(sortedItems[sortedItems.length - 1].lessonNumber!);
       setTimetableItems(sortedItems);
       setTimetableData(response.data);
     }
@@ -67,7 +69,8 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     >
       {timetableItems ? (
         <>
-          {[...Array(maxLesson)].map((_, index) => {
+          <TimetableHeaders />
+          {[...Array(maxLesson + 1)].map((_, index) => {
             return (
               <TimetableData
                 key={index}
