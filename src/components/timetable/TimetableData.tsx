@@ -1,63 +1,47 @@
-import React, { ReactElement } from "react";
-import {
-  Box,
-  Card,
-  Divider,
-  Grid,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Box, Card, Divider, Typography, useMediaQuery } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
-import { Week } from "../../api/models/timetable/week";
-import { useTranslation } from "react-i18next";
 import { getTimetableTime } from "../../utils/timeUtil";
 
-interface TimetableCardProps {
-  timetable: TimetableItem[];
-  week: Week | null;
+interface TimetableDataProps {
+  items: TimetableItem[];
+  lesson: number;
 }
 
-const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
+const TimetableData: React.FC<TimetableDataProps> = ({ items, lesson }) => {
   const isMobile = useMediaQuery("(max-width:1850px)");
-  const { t } = useTranslation();
-
-  const RenderCardWithDay = (): ReactElement => {
-    let day;
-
-    switch (week) {
-      case Week.Monday:
-        day = t("monday");
-        break;
-      case Week.Tuesday:
-        day = t("tuesday");
-        break;
-      case Week.Wednesday:
-        day = t("wednesday");
-        break;
-      case Week.Thursday:
-        day = t("thursday");
-        break;
-      case Week.Friday:
-        day = t("friday");
-        break;
-    }
-
-    return (
-      <>
-        <Card sx={{ textAlign: "center", padding: 2 }}>
-          <Typography variant="h6" component="div">
-            {day}
-          </Typography>
-        </Card>
-      </>
-    );
-  };
+  const [time, setTime] = useState<string | null>(null);
 
   return (
-    <Grid item xs={10}>
-      {RenderCardWithDay()}
-      {timetable.map((item, index) => {
-        if (item.dayOfWeek !== week) return null;
+    <Box
+      sx={{
+        width: "100%",
+        display: "grid",
+        gap: 2,
+        gridTemplateColumns: "repeat(6, 1fr)",
+      }}
+    >
+      {time ? (
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            width: "auto",
+            marginTop: 2,
+            marginBottom: 2,
+            padding: 1,
+            minHeight: isMobile ? "4rem" : "6rem",
+            gap: 1,
+          }}
+        >
+          <Typography component="a">{time}</Typography>
+        </Card>
+      ) : null}
+      {items.map((item, index) => {
+        if (item.lessonNumber !== lesson) return null;
+        if (time === null) setTime(getTimetableTime(item.startAt, item.endAt));
 
         return (
           <Card
@@ -75,16 +59,6 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
               gap: 1,
             }}
           >
-            {isMobile ? (
-              <>
-                <Typography sx={{ float: "left" }} component="a">
-                  {item.lessonNumber}.
-                </Typography>
-                <Typography sx={{ float: "left", marginLeft: 2 }} component="a">
-                  {getTimetableTime(item.startAt, item.endAt)}
-                </Typography>
-              </>
-            ) : null}
             <Typography component="a">
               {item.subject?.flatMap((value, index) =>
                 item.subject?.length === index + 1 ? (
@@ -124,8 +98,8 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ timetable, week }) => {
           </Card>
         );
       })}
-    </Grid>
+    </Box>
   );
 };
 
-export default TimetableCard;
+export default TimetableData;
