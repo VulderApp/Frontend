@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { getTimetable } from "../../api/api";
-import { TimetableItem } from "../../api/models/timetable/timetableItem";
-import TimetableCard from "./TimetableCard";
-import { Week } from "../../api/models/timetable/week";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { errorMessage, networkError, timetableData } from "../../states";
 import NetworkFailMessage from "../../components/root/NetworkFailMessage";
-import TimetableHours from "./TimetableHours";
-import { getTimetableTime } from "../../utils/timeUtil";
+import TimetableDesktopView from "./TimetableDesktopView";
+import TimetableHeaders from "./TimetableHeaders";
+import { TimetableItem } from "../../api/models/timetable/timetableItem";
+import { Week } from "../../api/models/timetable/week";
+import TimetableMobileView from "./TimetableMobileView";
+import { MOBILE_QUERY_STRING } from "../../constants";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -21,12 +22,12 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   className,
   shortPath,
 }) => {
-  const desktopWidth = useMediaQuery("(min-width:1850px)");
+  const isMobile = useMediaQuery(MOBILE_QUERY_STRING);
   const [timetableItems, setTimetableItems] = useState<TimetableItem[] | null>(
     null
   );
+  const [maxLesson, setMaxLessons] = useState(0);
   const [netError, setNetworkError] = useRecoilState(networkError);
-  const [hours, setHours] = useState<string[]>([]);
   const setErrorMessage = useSetRecoilState(errorMessage);
   const setTimetableData = useSetRecoilState(timetableData);
 
@@ -38,27 +39,41 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
       setNetworkError(true);
       return;
     }
+    if (response.status !== 200) return;
 
-    if (response.status === 200) {
-      let lesson = 0;
-      const sortedItems = response.data.timetableItems.sort(
-        (a, b) => a.lessonNumber! - b.lessonNumber!
-      );
+    const sortedItems = response.data.timetableItems.sort(
+      (a, b) => a.lessonNumber! - b.lessonNumber!
+    );
 
-      let hours: string[] = [];
-      sortedItems.forEach((item) => {
-        if (item.lessonNumber! > lesson) {
-          const date = getTimetableTime(item.startAt, item.endAt);
-          hours = [...hours, date];
-          ++lesson;
-        }
-      });
-
-      setHours(hours);
-      setTimetableItems(sortedItems);
-      setTimetableData(response.data);
-    }
+    setMaxLessons(sortedItems[sortedItems.length - 1].lessonNumber!);
+    setTimetableItems(sortedItems);
+    setTimetableData(response.data);
   };
+
+  const DesktopView = () => (
+    <>
+      <TimetableHeaders />
+      {[...Array(maxLesson + 1)].map((_, index) => {
+        return (
+          <TimetableDesktopView
+            key={index}
+            items={timetableItems!}
+            lesson={index}
+          />
+        );
+      })}
+    </>
+  );
+
+  const MobileView = () => (
+    <>
+      <TimetableMobileView timetable={timetableItems!} week={Week.Monday} />
+      <TimetableMobileView timetable={timetableItems!} week={Week.Tuesday} />
+      <TimetableMobileView timetable={timetableItems!} week={Week.Wednesday} />
+      <TimetableMobileView timetable={timetableItems!} week={Week.Thursday} />
+      <TimetableMobileView timetable={timetableItems!} week={Week.Friday} />
+    </>
+  );
 
   useEffect(() => {
     (async () => await onRender())();
@@ -71,7 +86,6 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
         minHeight: "80vh",
         minWidth: "auto",
         flexDirection: "row",
-        flexWrap: desktopWidth ? "nowrap" : "wrap",
         alignContent: "center",
         alignItems: "baseline",
         justifyContent: "center",
@@ -80,14 +94,11 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
       spacing={2}
     >
       {timetableItems ? (
-        <>
-          {desktopWidth ? <TimetableHours hours={hours} /> : null}
-          <TimetableCard timetable={timetableItems} week={Week.Monday} />
-          <TimetableCard timetable={timetableItems} week={Week.Tuesday} />
-          <TimetableCard timetable={timetableItems} week={Week.Wednesday} />
-          <TimetableCard timetable={timetableItems} week={Week.Thursday} />
-          <TimetableCard timetable={timetableItems} week={Week.Friday} />
-        </>
+        isMobile ? (
+          <MobileView />
+        ) : (
+          <DesktopView />
+        )
       ) : netError ? (
         <NetworkFailMessage />
       ) : (
