@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import { Box, Card, Divider, Typography, useMediaQuery } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { getTimetableTime } from "../../utils/timeUtil";
@@ -11,6 +11,7 @@ interface TimetableDataProps {
 const TimetableData: React.FC<TimetableDataProps> = ({ items, lesson }) => {
   const isMobile = useMediaQuery("(max-width:1850px)");
   const [time, setTime] = useState<string | null>(null);
+  let lastDay: number = 0;
 
   return (
     <Box
@@ -40,62 +41,92 @@ const TimetableData: React.FC<TimetableDataProps> = ({ items, lesson }) => {
         </Card>
       ) : null}
       {items.map((item, index) => {
+        const difference: number = item.dayOfWeek! - lastDay;
+        const emptyBoxes: ReactElement[] = [];
         if (item.lessonNumber !== lesson) return null;
         if (time === null) setTime(getTimetableTime(item.startAt, item.endAt));
+        if (difference > 0) {
+          for (let i = 0; i < difference; i++) {
+            const emptyCard = (
+              <Box
+                key={index}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "nowrap",
+                  alignItems: "center",
+                  width: "auto",
+                  marginTop: 2,
+                  marginBottom: 2,
+                  padding: 1,
+                  minHeight: isMobile ? "4rem" : "6rem",
+                  gap: 1,
+                }}
+              ></Box>
+            );
+            lastDay = item.dayOfWeek!;
+            emptyBoxes!.push(emptyCard);
+          }
+        }
+
+        lastDay++;
 
         return (
-          <Card
-            key={index}
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "nowrap",
-              alignItems: "center",
-              width: "auto",
-              marginTop: 2,
-              marginBottom: 2,
-              padding: 1,
-              minHeight: isMobile ? "4rem" : "6rem",
-              gap: 1,
-            }}
-          >
-            <Typography component="a">
-              {item.subject?.flatMap((value, index) =>
-                item.subject?.length === index + 1 ? (
-                  value
-                ) : (
-                  <Box key={index}>
-                    {value}
-                    <Divider />
-                  </Box>
-                )
-              )}
-            </Typography>
-            <Typography component="a">
-              {item.teacher?.flatMap((value, index) =>
-                item.teacher?.length === index + 1 ? (
-                  value.initials
-                ) : (
-                  <Box key={index}>
-                    {value.initials}
-                    <Divider />
-                  </Box>
-                )
-              )}
-            </Typography>
-            <Typography component="a">
-              {item.classroom?.flatMap((classroom, index) =>
-                item.classroom?.length === index + 1 ? (
-                  classroom.classroomNumber
-                ) : (
-                  <Box key={index}>
-                    {classroom.classroomNumber}
-                    <Divider />
-                  </Box>
-                )
-              )}
-            </Typography>
-          </Card>
+          <>
+            {emptyBoxes}
+            <Card
+              key={index}
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                alignItems: "center",
+                width: "auto",
+                marginTop: 2,
+                marginBottom: 2,
+                padding: 1,
+                minHeight: isMobile ? "4rem" : "6rem",
+                gap: 1,
+              }}
+            >
+              <Typography component="a">
+                {item.subject?.flatMap((value, index) =>
+                  item.subject?.length === index + 1 ? (
+                    value
+                  ) : (
+                    <Box key={index}>
+                      {value}
+                      <Divider />
+                    </Box>
+                  )
+                )}
+              </Typography>
+              <Typography component="a">
+                {item.teacher?.flatMap((value, index) =>
+                  item.teacher?.length === index + 1 ? (
+                    value.initials
+                  ) : (
+                    <Box key={index}>
+                      {value.initials}
+                      <Divider />
+                    </Box>
+                  )
+                )}
+              </Typography>
+              <Typography component="a">
+                {item.classroom?.flatMap((classroom, index) =>
+                  item.classroom?.length === index + 1 ? (
+                    classroom.classroomNumber
+                  ) : (
+                    <Box key={index}>
+                      {classroom.classroomNumber}
+                      <Divider />
+                    </Box>
+                  )
+                )}
+              </Typography>
+            </Card>
+          </>
         );
       })}
     </Box>
