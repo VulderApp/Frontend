@@ -68,7 +68,7 @@ const TimetableDesktopView: React.FC<TimetableDesktopViewProps> = ({
               ></Box>
             );
             lastDay = item.dayOfWeek!;
-            emptyBoxes!.push(emptyCard);
+            emptyBoxes?.push(emptyCard);
           }
         }
 

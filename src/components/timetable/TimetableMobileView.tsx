@@ -1,6 +1,5 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { Card, Grid, Typography } from "@mui/material";
-import { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
