@@ -97,7 +97,11 @@ const Timetable = (): ReactElement => {
   );
 
   return (
-    <Container>
+    <Container
+      sx={{
+        minWidth: "90%",
+      }}
+    >
       {resetTimetable ? (
         <>
           <TimetableTitle />
