@@ -32,6 +32,7 @@ const TimetableDesktopView: React.FC<TimetableDesktopViewProps> = ({
             flexDirection: "row",
             flexWrap: "wrap",
             alignItems: "center",
+            justifyContent: "center",
             width: "auto",
             marginTop: 2,
             marginBottom: 2,
@@ -65,7 +66,7 @@ const TimetableDesktopView: React.FC<TimetableDesktopViewProps> = ({
                   minHeight: "6rem",
                   gap: 1,
                 }}
-              ></Box>
+              />
             );
             lastDay = item.dayOfWeek!;
             emptyBoxes?.push(emptyCard);
