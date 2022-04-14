@@ -4,6 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { RecoilRoot } from "recoil";
 import "./i18n";
+import "./sentry";
 
 ReactDOM.render(
   <React.StrictMode>
