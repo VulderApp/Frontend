@@ -43,7 +43,7 @@ export const getSearchedSchools = async (
 ): Promise<AxiosResponse<Array<FindItem>> | string> =>
   await baseClient
     .request<Array<FindItem>>({
-      url: "/school/FindSchools",
+      url: "/school/find",
       params: {
         input: input,
       },
@@ -84,7 +84,7 @@ export const getSchoolDetails = async (
 ): Promise<AxiosResponse<School> | string> =>
   await baseClient
     .request<School>({
-      url: "/school/GetSchool",
+      url: "/school",
       method: "GET",
       params: {
         schoolId,
