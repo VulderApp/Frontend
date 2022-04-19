@@ -8,7 +8,7 @@ import {
   Link,
   TextField,
 } from "@mui/material";
-import { FindItem } from "../../api/models/find/FindItem";
+import { FindItem } from "../../api/models/find/findItem";
 import { getSearchedSchools } from "../../api/api";
 import SearchIcon from "@mui/icons-material/Search";
 import { debounce } from "lodash";

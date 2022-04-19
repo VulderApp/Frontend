@@ -74,28 +74,6 @@ const Appbar = (): ReactElement => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             {title}
           </Typography>
-          {timetableView ? (
-            <>
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                onClick={handleTimetableInfoButton}
-              >
-                <InfoIconOutlined />
-              </IconButton>
-              <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                onClick={handleExitButton}
-              >
-                <ExitToAppIcon />
-              </IconButton>
-            </>
-          ) : null}
           {!isSubpage ? (
             <IconButton
               size="large"
@@ -103,6 +81,17 @@ const Appbar = (): ReactElement => {
               color="inherit"
               aria-label="menu"
               onClick={() => navigate("/about")}
+            >
+              <InfoIconOutlined />
+            </IconButton>
+          ) : null}
+          {timetableView ? (
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleTimetableInfoButton}
             >
               <InfoIconOutlined />
             </IconButton>
@@ -116,6 +105,17 @@ const Appbar = (): ReactElement => {
           >
             <SettingsIconOutlined />
           </IconButton>
+          {timetableView ? (
+            <IconButton
+              size="large"
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleExitButton}
+            >
+              <ExitToAppIcon />
+            </IconButton>
+          ) : null}
         </Toolbar>
       </AppBar>
       {timetableView ? <BranchDrawer /> : null}

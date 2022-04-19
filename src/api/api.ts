@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { FindItem } from "./models/find/FindItem";
+import { FindItem } from "./models/find/findItem";
 import { Branch } from "./models/branch/branch";
 import { Timetable } from "./models/timetable/timetable";
-import { School } from "./models/school/School";
+import { School } from "./models/school/school";
 import { setupCache } from "axios-cache-adapter";
 import { Contributor } from "./models/github/contributor";
 import { camelizeKeys } from "humps";
