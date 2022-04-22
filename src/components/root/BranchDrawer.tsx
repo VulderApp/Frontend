@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import {
   Drawer,
   IconButton,
@@ -10,7 +10,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   actualSchoolId,
   actualTimetable,
@@ -37,12 +37,12 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 const BranchDrawer = (): ReactElement => {
   const [open, setOpen] = useRecoilState(menuOpen);
-  const [branchIndex, setBranchIndex] = React.useState(0);
-  const [, setSelectedBranch] = useRecoilState(actualTimetable);
-  const [branchItem, setBranchItems] = React.useState<Branch[] | null>(null);
+  const [branchIndex, setBranchIndex] = useState(0);
+  const setSelectedBranch = useSetRecoilState(actualTimetable);
+  const [branchItem, setBranchItems] = useState<Branch[] | null>(null);
   const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
   const [schoolId] = useRecoilState(actualSchoolId);
-  const [load, setLoad] = React.useState(true);
+  const [load, setLoad] = useState(true);
   const [, setErrorMessage] = useRecoilState(errorMessage);
   const { t } = useTranslation();
   const theme = useTheme();
@@ -102,11 +102,11 @@ const BranchDrawer = (): ReactElement => {
     </>
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => await onMount())();
   }, [isTimetableView]);
 
-  React.useEffect(() => {}, [actualBranch]);
+  useEffect(() => {}, [actualBranch]);
 
   return (
     <Drawer

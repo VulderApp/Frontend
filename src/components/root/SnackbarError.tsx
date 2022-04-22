@@ -1,10 +1,10 @@
 import { Alert, Snackbar } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { errorMessage } from "../../states";
 import { useRecoilState } from "recoil";
 
 const SnackbarError = (): ReactElement => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [error, setError] = useRecoilState(errorMessage);
 
   const handleClose = (
@@ -17,7 +17,7 @@ const SnackbarError = (): ReactElement => {
     setError(null);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (error === null) return;
 
     setOpen(true);
