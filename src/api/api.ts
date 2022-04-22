@@ -20,7 +20,6 @@ const baseClient = axios.create({
   baseURL: BASE_URL,
   adapter: cache.adapter,
   method: "GET",
-  maxRedirects: 1,
 });
 
 export const getGithubRepoContributors = async (): Promise<
@@ -40,7 +39,7 @@ export const getGithubRepoContributors = async (): Promise<
 
 export const getSearchedSchools = async (
   input: string
-): Promise<AxiosResponse<Array<FindItem>> | string> =>
+): Promise<AxiosResponse<FindItem[]> | string> =>
   await baseClient
     .request<Array<FindItem>>({
       url: "/school/find",
@@ -52,7 +51,7 @@ export const getSearchedSchools = async (
 
 export const getBranches = async (
   schoolId: string
-): Promise<AxiosResponse<Array<Branch>> | string> =>
+): Promise<AxiosResponse<Branch[]> | string> =>
   await baseClient
     .request<Array<Branch>>({
       url: "/branches",
