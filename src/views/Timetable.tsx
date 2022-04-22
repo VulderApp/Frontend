@@ -25,11 +25,11 @@ const Timetable = (): ReactElement => {
   const selectedBranch = useRecoilValue(actualTimetable);
   const setTitle = useSetRecoilState(timetableTitle);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
-  const [, setAppbarTitle] = useRecoilState(appbarTitle);
+  const setAppbarTitle = useSetRecoilState(appbarTitle);
   const [schoolName, setSchoolName] = useState<string | null>(null);
-  const [, setSchoolId] = useRecoilState(actualSchoolId);
+  const setSchoolId = useSetRecoilState(actualSchoolId);
   const [resetTimetable, setResetTimetable] = useState<number | null>(null);
-  const [, setErrorMessage] = useRecoilState(errorMessage);
+  const setErrorMessage = useSetRecoilState(errorMessage);
   const [netError, setNetworkErrorMessage] = useRecoilState(networkError);
   const setSubpage = useSetRecoilState(subpage);
   const { id } = useParams();

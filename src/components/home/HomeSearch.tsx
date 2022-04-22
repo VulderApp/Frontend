@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import {
   Autocomplete,
   Box,
@@ -15,19 +15,19 @@ import { debounce } from "lodash";
 import { saveItem } from "../../utils/localStorageUtil";
 import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { appbarTitle, errorMessage } from "../../states";
 import { useTranslation } from "react-i18next";
 
 declare const FORM_APP_URL: string;
 
 const HomeSearch = (): ReactElement => {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState<FindItem | null>(null);
-  const [options, setOptions] = React.useState<readonly FindItem[]>([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState<FindItem | null>(null);
+  const [options, setOptions] = useState<readonly FindItem[]>([]);
   const loading = open && options.length === 0;
-  const [, setAppbarTitle] = useRecoilState(appbarTitle);
-  const [, setErrorMessage] = useRecoilState(errorMessage);
+  const setAppbarTitle = useSetRecoilState(appbarTitle);
+  const setErrorMessage = useSetRecoilState(errorMessage);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -54,11 +54,11 @@ const HomeSearch = (): ReactElement => {
     debounce(async (input: string) => await handleSearch(input), 1500)
   ).current;
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) setOptions([]);
   }, [open]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       debouncedSearch.cancel();
     };
