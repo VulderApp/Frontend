@@ -14,6 +14,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import GavelIcon from "@mui/icons-material/Gavel";
 import PeopleIcon from "@mui/icons-material/People";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { FaDiscord } from "react-icons/fa";
 import { NavigateFunction } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -72,6 +73,20 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
                   <GitHubIcon />
                 </ListItemIcon>
                 <ListItemText primary="Github" secondary="VulderApp" />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemButton
+                onClick={() => open("https://discord.gg/RP6JNRpnph")}
+              >
+                <ListItemIcon>
+                  <FaDiscord style={{ fontSize: "1.5rem" }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Discord"
+                  secondary={t("discordDescription")}
+                />
               </ListItemButton>
             </ListItem>
           </List>
