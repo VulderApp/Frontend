@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
-import { getTimetableTime } from "../../utils/timeUtil";
+import { getTimetableTime } from "../../utils/dateUtil";
 import TimetableCard from "./TimetableCard";
 
 interface TimetableDesktopViewProps {

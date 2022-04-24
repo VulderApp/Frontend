@@ -2,7 +2,7 @@ import { Box, Card, Divider, Typography, useMediaQuery } from "@mui/material";
 import React, { ReactElement } from "react";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { MOBILE_QUERY_STRING } from "../../constants";
-import { getTimetableTime } from "../../utils/timeUtil";
+import { getTimetableTime } from "../../utils/dateUtil";
 
 interface TimetableCardProps {
   item: TimetableItem;

@@ -14,15 +14,18 @@ import InfoIcon from "@mui/icons-material/Info";
 import GavelIcon from "@mui/icons-material/Gavel";
 import PeopleIcon from "@mui/icons-material/People";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import HandymanIcon from "@mui/icons-material/Handyman";
 import { FaDiscord } from "react-icons/fa";
 import { NavigateFunction } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { getBuildDate } from "../../utils/dateUtil";
 
 interface AboutMenuCardProps {
   navigate: NavigateFunction;
 }
 
 declare const VERSION: string;
+declare const BUILD_AT: string;
 
 const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
   const { t } = useTranslation();
@@ -38,6 +41,18 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
                   <InfoIcon />
                 </ListItemIcon>
                 <ListItemText primary={t("versionLabel")} secondary={VERSION} />
+              </ListItemButton>
+            </ListItem>
+            <Divider />
+            <ListItem>
+              <ListItemButton>
+                <ListItemIcon>
+                  <HandymanIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary={t("buildLabel")}
+                  secondary={getBuildDate(BUILD_AT)}
+                />
               </ListItemButton>
             </ListItem>
             <Divider />
