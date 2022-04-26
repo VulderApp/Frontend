@@ -75,7 +75,7 @@ const AboutMenuCard: React.FC<AboutMenuCardProps> = ({ navigate }) => {
   ];
 
   return (
-    <Container sx={{ margin: "1rem" }}>
+    <Container sx={{ marginBottom: "1rem" }}>
       <Card>
         <CardContent sx={{ padding: 0, "&:last-child": { paddingBottom: 0 } }}>
           <List sx={{ padding: 0, margin: 0 }}>
