@@ -43,7 +43,7 @@ const BranchDrawer = (): ReactElement => {
   const [actualBranch, setActualBranch] = useRecoilState(actualTimetable);
   const [schoolId] = useRecoilState(actualSchoolId);
   const [load, setLoad] = useState(true);
-  const [, setErrorMessage] = useRecoilState(errorMessage);
+  const setErrorMessage = useSetRecoilState(errorMessage);
   const { t } = useTranslation();
   const theme = useTheme();
 
@@ -74,7 +74,7 @@ const BranchDrawer = (): ReactElement => {
     branchItem?.map((item, index) => {
       if (item.type === category) {
         return (
-          <ListItem key={index} sx={{ padding: 0, margin: 0 }}>
+          <ListItem key={index} sx={{ padding: 0 }}>
             <ListItemButton
               style={{ margin: 0 }}
               selected={branchIndex === index}
