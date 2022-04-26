@@ -11,7 +11,7 @@ import {
 import { FindItem } from "../../api/models/find/findItem";
 import { getSearchedSchools } from "../../api/api";
 import SearchIcon from "@mui/icons-material/Search";
-import { debounce } from "lodash";
+import { debounce, isEmpty } from "lodash";
 import { saveItem } from "../../utils/localStorageUtil";
 import { LAST_SCHOOL_ID } from "../../constants";
 import { useNavigate } from "react-router-dom";
@@ -32,15 +32,28 @@ const HomeSearch = (): ReactElement => {
   const { t } = useTranslation();
 
   const handleSearch = async (input: string) => {
-    if (input.trim().length === 0) return;
+    if (input.length === 0) {
+      setOpen(false);
+      return;
+    }
 
     const response = await getSearchedSchools(input);
     if (typeof response === "string") {
       setErrorMessage(response);
+      setOpen(false);
       return;
     }
 
-    if (response?.status !== 200) return;
+    if (isEmpty(response.data)) {
+      setOpen(false);
+      return;
+    }
+
+    if (response?.status !== 200) {
+      setOpen(false);
+      return;
+    }
+
     setOptions(response.data);
   };
 
@@ -75,7 +88,7 @@ const HomeSearch = (): ReactElement => {
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         onInputChange={(_, value) => debouncedSearch(value)}
-        onChange={(event, value) => {
+        onChange={(_, value) => {
           setOptions(value ? [value, ...options] : options);
           setValue(value);
         }}
