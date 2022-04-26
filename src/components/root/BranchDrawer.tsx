@@ -74,8 +74,9 @@ const BranchDrawer = (): ReactElement => {
     branchItem?.map((item, index) => {
       if (item.type === category) {
         return (
-          <ListItem key={index}>
+          <ListItem key={index} sx={{ padding: 0, margin: 0 }}>
             <ListItemButton
+              style={{ margin: 0 }}
               selected={branchIndex === index}
               onClick={() => handleListClick(index)}
             >
