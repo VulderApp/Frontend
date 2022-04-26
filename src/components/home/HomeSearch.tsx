@@ -32,16 +32,12 @@ const HomeSearch = (): ReactElement => {
   const { t } = useTranslation();
 
   const handleSearch = async (input: string) => {
-    // eslint-disable-next-line no-console
-    console.log(input.length);
     if (input.length === 0) {
       setOpen(false);
       return;
     }
 
     const response = await getSearchedSchools(input);
-    // eslint-disable-next-line no-console
-    console.log(response);
     if (typeof response === "string") {
       setErrorMessage(response);
       setOpen(false);
