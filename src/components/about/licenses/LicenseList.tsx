@@ -4,10 +4,10 @@ import licenses from "../../../assets/licenses.json";
 
 const LicenseList = (): ReactElement => {
   return (
-    <List>
+    <List sx={{ padding: 0 }}>
       {licenses.map((item, index) => {
         return (
-          <ListItem key={index}>
+          <ListItem key={index} sx={{ padding: 0 }}>
             <ListItemButton onClick={() => open(item.link.replace("git+", ""))}>
               <ListItemText
                 primary={`${item.name} ${item.installedVersion}`}
