@@ -19,7 +19,7 @@ const TimetableCard: React.FC<TimetableCardProps> = ({ item, emptyBoxes }) => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          flexWrap: "nowrap",
+          flexWrap: "wrap",
           alignItems: "center",
           justifyContent: isMobile ? "start" : "center",
           width: "auto",
