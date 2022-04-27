@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import { Contributor } from "../../../api/models/github/contributor";
 
 interface ContributorCardProps {
@@ -12,20 +18,20 @@ const ContributorCard: React.FC<ContributorCardProps> = ({ contributor }) => {
       sx={{
         display: "flex",
         flexDirection: "row",
-        width: "20rem",
-        cursor: "pointer",
       }}
       onClick={() => open(contributor.htmlUrl)}
     >
-      <CardMedia
-        sx={{ width: 160 }}
-        component="img"
-        src={contributor.avatarUrl}
-        alt={`${contributor.login}'s avatar`}
-      />
-      <CardContent>
-        <Typography>{contributor.login}</Typography>
-      </CardContent>
+      <CardActionArea sx={{ display: "inherit" }}>
+        <CardMedia
+          sx={{ width: 160 }}
+          component="img"
+          src={contributor.avatarUrl}
+          alt={`${contributor.login}'s avatar`}
+        />
+        <CardContent>
+          <Typography sx={{ padding: "1rem" }}>{contributor.login}</Typography>
+        </CardContent>
+      </CardActionArea>
     </Card>
   );
 };
