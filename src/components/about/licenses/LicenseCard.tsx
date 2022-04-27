@@ -4,8 +4,8 @@ import LicenseList from "./LicenseList";
 
 const LicenseCard = (): ReactElement => {
   return (
-    <Card>
-      <CardContent>
+    <Card sx={{ marginBottom: "1rem" }}>
+      <CardContent sx={{ padding: 0, "&:last-child": { paddingBottom: 0 } }}>
         <LicenseList />
       </CardContent>
     </Card>
