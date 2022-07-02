@@ -14,6 +14,7 @@ import {
   appbarTitle,
   isTimetableView,
   menuOpen,
+  printTimetable,
   subpage,
   timetableInfoDialogOpen,
 } from "../../states";
@@ -25,12 +26,14 @@ import { useNavigate } from "react-router-dom";
 import InfoIconOutlined from "@mui/icons-material/InfoOutlined";
 import SettingsIconOutlined from "@mui/icons-material/SettingsOutlined";
 import SettingsMenuItems from "./SettingsMenuItems";
+import PrintIconOutlined from "@mui/icons-material/PrintOutlined";
 
 const Appbar = (): ReactElement => {
   const [title] = useRecoilState(appbarTitle);
   const [timetableView, setTimetableView] = useRecoilState(isTimetableView);
   const setSelectedBranch = useSetRecoilState(actualTimetable);
   const [drawerOpen, setDrawerOpen] = useRecoilState(menuOpen);
+  const setPrintTimetable = useSetRecoilState(printTimetable);
   const setTimetableInfoOpen = useSetRecoilState(timetableInfoDialogOpen);
   const [settingsAnchorElement, setSettingsAnchorElement] =
     useState<HTMLElement | null>();
@@ -38,6 +41,7 @@ const Appbar = (): ReactElement => {
   const isSubpage = useRecoilValue(subpage);
   const navigate = useNavigate();
 
+  const handlePrintTimetable = () => setPrintTimetable(true);
   const handleSettingsOpen = (event: React.MouseEvent<HTMLElement>) =>
     setSettingsAnchorElement(event.currentTarget);
   const handleSettingsClose = () => setSettingsAnchorElement(null);
@@ -106,15 +110,26 @@ const Appbar = (): ReactElement => {
             <SettingsIconOutlined />
           </IconButton>
           {timetableView ? (
-            <IconButton
-              size="large"
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={handleExitButton}
-            >
-              <ExitToAppIcon />
-            </IconButton>
+            <>
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={handlePrintTimetable}
+              >
+                <PrintIconOutlined />
+              </IconButton>
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={handleExitButton}
+              >
+                <ExitToAppIcon />
+              </IconButton>
+            </>
           ) : null}
         </Toolbar>
       </AppBar>
