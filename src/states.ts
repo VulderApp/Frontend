@@ -35,6 +35,11 @@ export const actualSchoolId = atom<string | undefined>({
   default: undefined,
 });
 
+export const tabWeekDay = atom({
+  key: "tabWeekDay",
+  default: 0,
+});
+
 export const menuOpen = atom({
   key: "menuOpen",
   default: false,

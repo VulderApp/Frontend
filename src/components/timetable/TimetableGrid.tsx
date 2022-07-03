@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import { getTimetable } from "../../api/api";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { errorMessage, networkError, timetableData } from "../../states";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  errorMessage,
+  networkError,
+  tabWeekDay,
+  timetableData,
+} from "../../states";
 import NetworkFailMessage from "../../components/root/NetworkFailMessage";
 import TimetableDesktopView from "./TimetableDesktopView";
 import TimetableHeaders from "./TimetableHeaders";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
-import { Week } from "../../api/models/timetable/week";
 import TimetableMobileView from "./TimetableMobileView";
 import { MOBILE_QUERY_STRING } from "../../constants";
+import TimetableMobileBottomTabs from "./TimetableMobileBottomTabs";
 
 interface TimetableGridProps {
   schoolId: string;
@@ -28,6 +33,7 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
   );
   const [maxLesson, setMaxLessons] = useState(0);
   const [netError, setNetworkError] = useRecoilState(networkError);
+  const weekDay = useRecoilValue(tabWeekDay);
   const setErrorMessage = useSetRecoilState(errorMessage);
   const setTimetableData = useSetRecoilState(timetableData);
 
@@ -67,11 +73,8 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
 
   const MobileView = () => (
     <>
-      <TimetableMobileView timetable={timetableItems!} week={Week.Monday} />
-      <TimetableMobileView timetable={timetableItems!} week={Week.Tuesday} />
-      <TimetableMobileView timetable={timetableItems!} week={Week.Wednesday} />
-      <TimetableMobileView timetable={timetableItems!} week={Week.Thursday} />
-      <TimetableMobileView timetable={timetableItems!} week={Week.Friday} />
+      <TimetableMobileView timetable={timetableItems!} week={weekDay} />
+      <TimetableMobileBottomTabs />
     </>
   );
 
@@ -83,7 +86,6 @@ const TimetableGrid: React.FC<TimetableGridProps> = ({
     <Grid
       sx={{
         display: "flex",
-        minHeight: "80vh",
         minWidth: "auto",
         flexDirection: "row",
         alignContent: "center",
