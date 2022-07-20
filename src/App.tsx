@@ -15,6 +15,7 @@ import { saveItem } from "./utils/localStorageUtil";
 import { LANGUAGE_KEY } from "./constants";
 import i18n from "./i18n";
 import { getLanguageShortCode } from "./utils/languageUtil";
+import "./App.css";
 
 const lightTheme = createTheme({
   palette: {
