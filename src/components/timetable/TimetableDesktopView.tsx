@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 import { Box, Card, Typography } from "@mui/material";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { getTimetableTime } from "../../utils/dateUtil";
-import TimetableCard from "./TimetableCard";
+import TimetableCell from "./TimetableCell";
 
 interface TimetableDesktopViewProps {
   items: TimetableItem[];
@@ -76,7 +76,7 @@ const TimetableDesktopView: React.FC<TimetableDesktopViewProps> = ({
         lastDay++;
 
         return (
-          <TimetableCard key={index} item={item} emptyBoxes={emptyBoxes} />
+          <TimetableCell key={index} item={item} emptyBoxes={emptyBoxes} />
         );
       })}
     </Box>

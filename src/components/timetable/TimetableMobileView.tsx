@@ -3,7 +3,7 @@ import { Card, Grid, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { Week } from "../../api/models/timetable/week";
-import TimetableCard from "./TimetableCard";
+import TimetableCell from "./TimetableCell";
 
 interface TimetableMobileViewProps {
   timetable: TimetableItem[];
@@ -54,7 +54,7 @@ const TimetableMobileView: React.FC<TimetableMobileViewProps> = ({
       {timetable.map((item, index) => {
         if (item.dayOfWeek !== week) return null;
 
-        return <TimetableCard key={index} item={item} emptyBoxes={null} />;
+        return <TimetableCell key={index} item={item} emptyBoxes={null} />;
       })}
     </Grid>
   );
