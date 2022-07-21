@@ -3,6 +3,7 @@ import React, { ReactElement } from "react";
 import { TimetableItem } from "../../api/models/timetable/timetableItem";
 import { MOBILE_QUERY_STRING } from "../../constants";
 import { getTimetableTime } from "../../utils/dateUtil";
+import * as _ from "lodash";
 
 interface TimetableCardProps {
   item: TimetableItem;
@@ -15,6 +16,30 @@ interface TimetableDividerProps {
 
 const TimetableCell: React.FC<TimetableCardProps> = ({ item, emptyBoxes }) => {
   const isMobile = useMediaQuery(MOBILE_QUERY_STRING);
+
+  const getSubject = (index: number): string | null | undefined => {
+    try {
+      return item.subject?.[index];
+    } catch (e: any) {
+      return null;
+    }
+  };
+
+  const getTeacherInitials = (index: number): string | null | undefined => {
+    try {
+      return item.teacher?.[index].initials;
+    } catch (e: any) {
+      return null;
+    }
+  };
+
+  const getClassroomNumber = (index: number): string | null | undefined => {
+    try {
+      return item.classroom?.[index].classroomNumber;
+    } catch (e: any) {
+      return null;
+    }
+  };
 
   const TimetableDivider: React.FC<TimetableDividerProps> = ({ index }) => (
     <Card
@@ -43,10 +68,12 @@ const TimetableCell: React.FC<TimetableCardProps> = ({ item, emptyBoxes }) => {
           </Typography>
         </>
       ) : null}
-      <Typography component="a">{item.subject?.[index]}</Typography>
-      <Typography component="a">{item.teacher?.[index].initials}</Typography>
+      <Typography component="a">{getSubject(index)}</Typography>
       <Typography component="a">
-        {item.classroom?.[index].classroomNumber}
+        {_.isEmpty(item.teacher) ? null : getTeacherInitials(index)}
+      </Typography>
+      <Typography component="a">
+        {_.isEmpty(item.classroom) ? null : getClassroomNumber(index)}
       </Typography>
     </Card>
   );
