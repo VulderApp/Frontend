@@ -69,3 +69,8 @@ export const language = atom<string>({
   key: "language",
   default: getItem(LANGUAGE_KEY) ?? getLanguageShortCode(),
 });
+
+export const printTimetable = atom({
+  key: "printTimetable",
+  default: false,
+});

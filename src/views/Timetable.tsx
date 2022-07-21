@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import TimetableGrid from "../components/timetable/TimetableGrid";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
@@ -8,6 +8,7 @@ import {
   errorMessage,
   isTimetableView,
   networkError,
+  printTimetable,
   subpage,
   timetableTitle,
 } from "../states";
@@ -20,6 +21,7 @@ import { getSchoolDetails } from "../api/api";
 import TimetableInfo from "../components/timetable/TimetableInfo";
 import NetworkFailMessage from "../components/root/NetworkFailMessage";
 import { changeTitle } from "../utils/titleUtil";
+import { useReactToPrint } from "react-to-print";
 
 const Timetable = (): ReactElement => {
   const selectedBranch = useRecoilValue(actualTimetable);
@@ -32,6 +34,12 @@ const Timetable = (): ReactElement => {
   const setErrorMessage = useSetRecoilState(errorMessage);
   const [netError, setNetworkErrorMessage] = useRecoilState(networkError);
   const setSubpage = useSetRecoilState(subpage);
+  const timetableRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => timetableRef.current!,
+    removeAfterPrint: true,
+  });
+  const [printClicked, setPrintTimetable] = useRecoilState(printTimetable);
   const { id } = useParams();
 
   const onMount = () => {
@@ -78,6 +86,13 @@ const Timetable = (): ReactElement => {
     document.title = changeTitle(`${schoolName} / ${selectedBranch!.name!}`);
   }, [selectedBranch, netError]);
 
+  useEffect(() => {
+    if (!printClicked) return;
+
+    setPrintTimetable(false);
+    handlePrint();
+  }, [printClicked]);
+
   onMount();
 
   const NetworkErrorContainer = () => (
@@ -97,7 +112,9 @@ const Timetable = (): ReactElement => {
   );
 
   return (
+    // @ts-ignore
     <Container
+      ref={timetableRef}
       sx={{
         minWidth: "90%",
       }}

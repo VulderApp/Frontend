@@ -1,0 +1,10 @@
+@media print {
+    @page {
+        size: landscape;
+    }
+
+    body {
+        transform: scale(0.80);
+        display: block;
+    }
+}
